@@ -1,1 +1,11 @@
-12.3
+12.3 Väliraportti
+
+Mitä on tehty:
+- Aloitettu graafisen käyttöliittymän rakentaminen
+- Luotu Git repository projektille
+
+Käytetty työmäärä n. 7 tuntia pääasiassa ScalaFX:ään tutustumista. Sen lisäksi
+aikaa on kulunut gitin luomiseen ja Scalafx.jar:n kokoamiseen ja lisäämiseen projektiin.
+
+Olen suunnittelemastani aikataulusta jäljessä. Pitänee tehdä projektia enemmän muiden
+opintojen ohessa. Muuta järkevää dokumentoitavaa ei ole.
