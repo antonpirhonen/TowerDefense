@@ -27,7 +27,8 @@ object GUI extends JFXApp{
     title = "TDK GUI TEST" //the title of the window
     scene = new Scene(1000, 600) {
       
-      val enemies = World.monsters.map(m => Circle(m.x, m.y, m.size))
+      def monsters = World.monsters
+      val enemies = World.monsters.map(m => Circle(m.x, m.y, 10))
       val speed = 3.0
       
       val randColors = List(Color.ANTIQUEWHITE, Color.DARKSLATEGRAY, Color.POWDERBLUE, Color.LAWNGREEN, Color.WHEAT)
@@ -35,9 +36,7 @@ object GUI extends JFXApp{
       content = enemies
       
       val timer = AnimationTimer(t => {
-        val c = Circle(t%1000,t%600,t%600)
-        c.setFill(randColors(Random.nextInt(5)))
-        content = c
+        content = monsters.map(_.advance).map(m => (Circle(m.x, m.y, 10)))
       })
       timer.start()
       

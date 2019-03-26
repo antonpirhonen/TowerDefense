@@ -9,3 +9,13 @@ aikaa on kulunut gitin luomiseen ja Scalafx.jar:n kokoamiseen ja lisäämiseen p
 
 Olen suunnittelemastani aikataulusta jäljessä. Pitänee tehdä projektia enemmän muiden
 opintojen ohessa. Muuta järkevää dokumentoitavaa ei ole.
+
+
+25.3 Väliraportti
+
+Mitä tehty:
+- Luotu perusta animaatiolle AnimationTImer:n avulla. Luotu muutama alustava luokka.
+
+Käytetty työmäärä kokonaisuudessaan noin 10 tuntia. Pääasiassa ScalaFX:n opettelua.
+
+Olen suunnitelmastani jäjessä.
