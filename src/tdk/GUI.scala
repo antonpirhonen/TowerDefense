@@ -1,14 +1,13 @@
 package tdk
 
+
+
 import scalafx.application.JFXApp
+import scalafx.scene.shape.Circle
 import scalafx.scene.Scene
+import scalafx.animation.AnimationTimer
 import scalafx.scene.paint.Color
 import scalafx.scene.shape.Rectangle
-import scalafx.stage.StageStyle
-import scalafx.scene.image.Image
-import scalafx.animation.AnimationTimer
-import scalafx.scene.shape.Circle
-import scala.util.Random
 
 /* A gui that hopefully is not as bad a cat ass trophy as the last one*/
 
@@ -36,7 +35,11 @@ object GUI extends JFXApp{
       content = enemies
       
       val timer = AnimationTimer(t => {
-        content = monsters.map(_.advance).map(m => (Circle(m.x, m.y, 10)))
+        content = World.update.map(entity => entity match {
+          case monster: Monster => Circle(monster.x, monster.y, 10)
+          case tower: Tower     => Rectangle(tower.x, tower.y, 30, 30)
+          case projectile: Projectile => Circle(projectile.x, projectile.y, 5)      
+        })
       })
       timer.start()
       

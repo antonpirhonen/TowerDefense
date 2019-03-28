@@ -14,7 +14,7 @@ opintojen ohessa. Muuta järkevää dokumentoitavaa ei ole.
 25.3 Väliraportti
 
 Mitä tehty:
-- Luotu perusta animaatiolle AnimationTImer:n avulla. Luotu muutama alustava luokka.
+- Luotu perusta animaatiolle AnimationTimer:n avulla. Luotu muutama alustava luokka.
 
 Käytetty työmäärä kokonaisuudessaan noin 10 tuntia. Pääasiassa ScalaFX:n opettelua.
 

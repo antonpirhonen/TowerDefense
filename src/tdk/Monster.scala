@@ -1,6 +1,6 @@
 package tdk
 
-class Monster(val x: Int, val y: Int, val speed: Int, val location: Int) {
+class Monster(val x: Int, val y: Int, val speed: Int, val location: Int) extends Entity {
   
   val p = Path.path
   def newx = if (p.indices contains location) p(location).x else x

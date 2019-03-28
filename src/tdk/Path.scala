@@ -12,7 +12,7 @@ object Path {
   
   //from point x = 0 -> 500, y = 300 -> 300
   val x0to500   = for (x <- 0 to 500) yield (new Pos(x, 300))
-  val y300to100 = for (y <- 300 to 100) yield (new Pos(500, y))
+  val y300to100 = for (y <- 300 to 100 by -1) yield (new Pos(500, y))
   val x500to1k  = for (x <- 500 to 1000) yield (new Pos(x, 100))
   
   val path = x0to500 ++ y300to100 ++ x500to1k

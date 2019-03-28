@@ -5,27 +5,41 @@ import scala.util.Random
 
 object World {
   
+  var entities: List[Entity] = List()
+  
   var monsters = List[Monster]()
   
   for (i <- 0 until 50) {
     monsters = monsters :+ new Monster(-25*i, -25*i, 3, -25*i)
   }
   
+  def updateMonsters = {
+    monsters = monsters.map(_.advance)
+    monsters
+  }
   
-//  val colors = List(Color.DimGrey, Color.Yellow, Color.SIENNA, Color.FORESTGREEN)
-//  var monsters: List[Monster] = List()
-//  val monsterspeed: Int = 3
-//  
-//  class Monster(val x: Int,val y: Int,val size: Int,val color: Color)
-//  
-//  for (rep <- 0 until 50) {
-//    monsters = monsters :+ new Monster(-30*rep, 300,
-//                                       Random.nextInt(40), colors.apply(Random.nextInt(3)) )
-//  }
-//  
-//  def moveMonsters(): Unit = {
-//    monsters = monsters.map(o => new Monster(o.x + monsterspeed, o.y, o.size, o.color))
-//  }
+  def update: List[Entity] = {
+    monsters = monsters.map(_.advance)
+    projectiles = projectiles.map(_.advance)
+    val all: List[Entity] = monsters ++ projectiles ++ towers
+    all
+  }
+  
+  
+  var towers = List(new Tower(300,300,1), new Tower(600,600,2))
+  
+  var projectiles: List[Projectile] = List()
+  
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
     
   
