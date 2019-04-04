@@ -19,3 +19,10 @@ Mitä tehty:
 Käytetty työmäärä kokonaisuudessaan noin 10 tuntia. Pääasiassa ScalaFX:n opettelua.
 
 Olen suunnitelmastani jäjessä.
+
+
+8.4 Väliraportti
+
+Lisätty luokkia, rakennettu ampumistoimintoa. Työmäärä n. 12 tunria
+
+Olen suunnitelmastani paljon jäljessä. Ehkä tenttiviikon jälkeen ehtii tehdä enemmän.
