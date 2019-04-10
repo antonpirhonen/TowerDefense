@@ -8,6 +8,8 @@ import scalafx.scene.Scene
 import scalafx.animation.AnimationTimer
 import scalafx.scene.paint.Color
 import scalafx.scene.shape.Rectangle
+import scalafx.Includes._
+
 
 /* A gui that hopefully is not as bad a cat ass trophy as the last one*/
 
@@ -20,6 +22,7 @@ object GUI extends JFXApp{
    * clock: AnimationTimer("taski, jota tekee joka tickillä")
    * UpdateLogic/drawGraphics
    * */
+  var gameTime = 0L
   
   stage = new JFXApp.PrimaryStage {
     
@@ -32,7 +35,7 @@ object GUI extends JFXApp{
           case tower: Tower     => Rectangle(tower.x, tower.y, 30, 30)
           case projectile: Projectile => Circle(projectile.x, projectile.y, 5)      
         })
-        println(t/10E8)
+        gameTime = t
       })
       
       timer.start()

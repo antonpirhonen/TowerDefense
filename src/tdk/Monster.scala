@@ -7,10 +7,12 @@ class Monster(val x: Int, val y: Int, val speed: Int, val location: Int) extends
   def newx = if (p.indices contains location) p(location).x else x
   def newy = if (p.indices contains location) p(location).y else y
   
-  def advance = {
-    val damage = World.projectiles.exists(proj => Tools.dist(this.x, this.y, proj.x, proj.y) < 1)
+  def advance: Option[Monster] = {
+    def damage: Boolean = { 
+      World.projectiles.exists(proj => hypot(this.x - proj.x, this.y - proj.y) < 10)
+    }
     
-    new Monster(newx, newy, speed, location + speed)
+    if(!damage) Some(new Monster(newx, newy, speed, location + speed)) else None
   }
   
 }
