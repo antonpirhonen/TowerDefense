@@ -1,6 +1,6 @@
 package tdk
 
-import scala.math.Pi
+import scala.math.{Pi, hypot}
 
 class Tower(val x: Int, val y: Int, val firePerSec: Double, val range: Int) extends Entity {
   
@@ -9,7 +9,10 @@ class Tower(val x: Int, val y: Int, val firePerSec: Double, val range: Int) exte
   
   
   def shoot: Option[Projectile] = {
-    if (World.time - lastShot > cooldownSec*10E8) {
+    
+    val enemyInRange = World.monsters.exists(mon => hypot(x - mon.x, y - mon.y) < range)
+    
+    if (World.time - lastShot > cooldownSec*10E8 && enemyInRange) {
       lastShot = World.time
       Some(new Projectile(x,y,20,1.5*Pi))
     } else None

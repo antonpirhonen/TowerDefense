@@ -6,10 +6,11 @@ import scala.util.Random
 object World {
   
   def time = GUI.gameTime
+  private var health = 100
   
   var entities: List[Entity] = List()
   var monsters = List[Monster]()
-  var towers = List(new Tower(300,500,2,200), new Tower(500,500,1,100))
+  var towers = List(new Tower(300,500,2,250), new Tower(400,500,1,250))
   var projectiles: List[Projectile] = List()
   
   
@@ -29,7 +30,7 @@ object World {
   
   
   
-  
+  def decreaseHp(damage: Int) = health -= damage
 
   
     

@@ -4,6 +4,8 @@ import scala.math.{hypot, pow}
 class Monster(val x: Int, val y: Int, val speed: Int, val location: Int) extends Entity {
   
   val p = Path.path
+  val pLength = p.length
+  
   def newx = if (p.indices contains location) p(location).x else x
   def newy = if (p.indices contains location) p(location).y else y
   
@@ -12,7 +14,10 @@ class Monster(val x: Int, val y: Int, val speed: Int, val location: Int) extends
       World.projectiles.exists(proj => hypot(this.x - proj.x, this.y - proj.y) < 10)
     }
     
-    if(!damage) Some(new Monster(newx, newy, speed, location + speed)) else None
+    if (location > pLength) { 
+      World.decreaseHp(1)
+      None
+    } else if(!damage) Some(new Monster(newx, newy, speed, location + speed)) else None
   }
   
 }
