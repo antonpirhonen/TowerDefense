@@ -14,7 +14,7 @@ import scalafx.scene.shape.Rectangle
 object GUI extends JFXApp{
  
   /* Stage, jossa pääikkuna scene
-   * scenellä on content, johon voi lisätä Node-tyyppisiä olioita, joita on eri muodot teksti Image????
+   * scenellä on content, johon voi lisätä Node-tyyppisiä olioita, joita on eri muodot teksti,Image jne
    * Rectangleja voi teksturoida image pattern - luokalla, 
    * Ticker metodi: Saa kellon 
    * clock: AnimationTimer("taski, jota tekee joka tickillä")
@@ -25,24 +25,17 @@ object GUI extends JFXApp{
     
     title = "TDK GUI TEST" //the title of the window
     scene = new Scene(1000, 600) {
-      
-      def monsters = World.monsters
-      val enemies = World.monsters.map(m => Circle(m.x, m.y, 10))
-      val speed = 3.0
-      
-      val randColors = List(Color.ANTIQUEWHITE, Color.DARKSLATEGRAY, Color.POWDERBLUE, Color.LAWNGREEN, Color.WHEAT)
-      
-      content = enemies
-      
+            
       val timer = AnimationTimer(t => {
         content = World.update.map(entity => entity match {
           case monster: Monster => Circle(monster.x, monster.y, 10)
           case tower: Tower     => Rectangle(tower.x, tower.y, 30, 30)
           case projectile: Projectile => Circle(projectile.x, projectile.y, 5)      
         })
+        println(t/10E8)
       })
-      timer.start()
       
+      timer.start()
     }
   }
 }
