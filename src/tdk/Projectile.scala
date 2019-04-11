@@ -13,3 +13,7 @@ class Projectile(val x: Int, val y: Int, val speed: Int, val direction: Double) 
   }
   
 }
+
+object Projectile {
+  val size = 15
+}

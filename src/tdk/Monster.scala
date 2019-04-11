@@ -11,7 +11,7 @@ class Monster(val x: Int, val y: Int, val speed: Int, val location: Int) extends
   
   def advance: Option[Monster] = {
     def damage: Boolean = { 
-      World.projectiles.exists(proj => hypot(this.x - proj.x, this.y - proj.y) < 10)
+      World.projectiles.exists(proj => hypot(this.x - proj.x, this.y - proj.y) < Projectile.size)
     }
     
     if (location > pLength) { 

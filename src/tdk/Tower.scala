@@ -1,6 +1,6 @@
 package tdk
 
-import scala.math.{Pi, hypot}
+import scala.math.{Pi, hypot, atan}
 
 class Tower(val x: Int, val y: Int, val firePerSec: Double, val range: Int) extends Entity {
   
@@ -10,11 +10,26 @@ class Tower(val x: Int, val y: Int, val firePerSec: Double, val range: Int) exte
   
   def shoot: Option[Projectile] = {
     
-    val enemyInRange = World.monsters.exists(mon => hypot(x - mon.x, y - mon.y) < range)
+    val enemiesInRange = World.monsters.filter(mon => hypot(x - mon.x, y - mon.y) < range)
+    val furthestEnemyInRange = if (enemiesInRange.nonEmpty) Some(enemiesInRange.maxBy(_.location)) else None
     
-    if (World.time - lastShot > cooldownSec*10E8 && enemyInRange) {
+    if (World.time - lastShot > cooldownSec*10E8 && enemiesInRange.nonEmpty) {
       lastShot = World.time
-      Some(new Projectile(x,y,20,1.5*Pi))
+      val m = furthestEnemyInRange.get
+      
+      val dy = m.y - this.y
+      val dx = m.x - this.x
+      var angle = atan(dy.toDouble/dx)
+      
+      if (angle >= 0 ) {
+        if (dy < 0 ) angle = angle + Pi
+      } else {
+        if (dy > 0) {
+          angle = angle + Pi
+        }
+      }
+      
+      Some(new Projectile(x,y,20,angle))
     } else None
   }
   
