@@ -32,8 +32,9 @@ class Tower(val x: Int, val y: Int, val firePerSec: Double, val range: Int) exte
       Some(new Projectile(x,y,20,angle))
     } else None
   }
-  
-  
-  
-  
+
 }
+
+class BasicTower(x: Int, y: Int) extends Tower(x,y,1,100)
+
+

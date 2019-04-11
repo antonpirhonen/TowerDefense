@@ -12,7 +12,7 @@ object World {
   
   var entities: ListBuffer[Entity] = ListBuffer()
   var monsters = ListBuffer[Monster]()
-  var towers = ListBuffer(new Tower(300,350,1,100), new Tower(300,250,3,100))
+  var towers = ListBuffer(new Tower(300,350,1,100), new Tower(300,250,5,100))
   var projectiles: ListBuffer[Projectile] = ListBuffer()
   
   
@@ -22,7 +22,7 @@ object World {
   
   def update: ListBuffer[Entity] = {
     
-    val activeMonsters = monsters.filter(_.location > 0)
+    def activeMonsters = monsters.filter(_.location > 0)
     projectiles.foreach(proj => {
       val monstersClose  = activeMonsters.filter(mon => hypot(mon.x - proj.x, mon.y - proj.y) < Projectile.size)
       val monsterToShoot = if (monstersClose.nonEmpty) Some(monstersClose.minBy(mon => hypot(mon.x - proj.x, mon.y - proj.y)) ) 
