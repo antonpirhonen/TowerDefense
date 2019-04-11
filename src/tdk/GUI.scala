@@ -32,6 +32,7 @@ object GUI extends JFXApp{
    * UpdateLogic/drawGraphics
    * */
   var gameTime = 0L
+  private var canBuyTower = false
   
   stage = new JFXApp.PrimaryStage {
     
@@ -41,14 +42,34 @@ object GUI extends JFXApp{
       val menuBar = new MenuBar
       val gameMenu = new Menu("Towers")
       val basicTower = new MenuItem("Basic Tower - 500$") {
-        onMouseClicked = new EventHandler[MouseEvent] {
-          override def handle(event: MouseEvent) {
-            val x = event.getSceneX
-            val y = event.getSceneY
-            World.towers += new Tower(x.toInt,y.toInt,1,100)
-          }
+        onAction = (ae: ActionEvent) => {
+          canBuyTower = true
+        }
+        
+        
+//        onMouseClicked = new EventHandler[MouseEvent] {
+//          override def handle(event: MouseEvent) {
+//            val x = event.getSceneX
+//            val y = event.getSceneY
+//            World.towers += new Tower(x.toInt,y.toInt,1,100)
+//          }
+//        }
+      }
+      
+      onMouseClicked = new EventHandler[MouseEvent] {
+        override def handle(me: MouseEvent) {
+          if (canBuyTower) {
+            val x = me.getSceneX
+            val y = me.getSceneY
+            canBuyTower = false
+            World.towers += new BasicTower(x.toInt, y.toInt)
+          }          
         }
       }
+      
+      
+      
+      
       
       gameMenu.items = List(basicTower)
       menuBar.menus = List(gameMenu)
@@ -59,13 +80,10 @@ object GUI extends JFXApp{
       val bg = new Image("file:///C:/Users/anton/Desktop/Antonin%20tiedostot/Koulu/Ohjelmointi/O2/tower-defense/src/images/TaustaAluksi.png")
       val view = new ImageView(bg)
       
-      
-      val stackPane = new StackPane {
-        content = view
-      }
+      val monster = new Image("file:bacteria.png")
+     //val monView = new ImageView(monster).s
       
       
-            
       val timer = AnimationTimer(t => {
         content = List(view, rootPane) ++ World.update.map(entity => entity match {
           case monster: Monster => Circle(monster.x, monster.y, 10)

@@ -9,16 +9,20 @@ object World {
   
   def time = GUI.gameTime
   private var health = 100
+  private var money  = 1000
   
   var entities: ListBuffer[Entity] = ListBuffer()
   var monsters = ListBuffer[Monster]()
-  var towers = ListBuffer(new Tower(300,350,1,100), new Tower(300,250,5,100))
+  var towers = ListBuffer(new Tower(300,350,1,100), new Tower(300,250,2,100))
   var projectiles: ListBuffer[Projectile] = ListBuffer()
   
-  
-  for (i <- 0 until 50) {
-    monsters = monsters :+ new Monster(-25*i, -25*i, 3, -25*i)
+  def spawn() = {
+    for (i <- 0 until 50) {
+      monsters = monsters :+ new Monster(-25*i, -25*i, 2, -25*i)
+    }
   }
+  
+  spawn()
   
   def update: ListBuffer[Entity] = {
     
@@ -44,6 +48,8 @@ object World {
   
   
   def decreaseHp(damage: Int) = health -= damage
+  
+  val towerPrices = Map[Tower, Int](new BasicTower(1,2) -> 500)
 
   
     
