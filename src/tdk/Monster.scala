@@ -3,6 +3,7 @@ import scala.math.{hypot, pow}
 
 class Monster(val x: Int, val y: Int, val speed: Int, val location: Int) extends Entity {
   
+  val bounty = 10
   val p = Path.path
   val pLength = p.length
   

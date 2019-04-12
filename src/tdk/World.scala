@@ -1,7 +1,7 @@
 package tdk
 
 import scalafx.scene.paint.Color
-import scala.math.hypot
+import scala.math.{hypot, max}
 import scala.util.Random
 import scala.collection.mutable.ListBuffer
 
@@ -34,12 +34,13 @@ object World {
       if (monsterToShoot.nonEmpty) {
         monsters -= monsterToShoot.get
         projectiles -= proj
+        money += monsterToShoot.get.bounty
       }
     })
     
     
     monsters = monsters.map(_.advance).flatten
-    projectiles = projectiles.map(_.advance)
+    projectiles = projectiles.map(_.advance).flatten
     projectiles = projectiles ++ towers.map(_.shoot).flatten
     val all: ListBuffer[Entity] = monsters ++ projectiles ++ towers
     all
@@ -47,7 +48,19 @@ object World {
   
   
   
-  def decreaseHp(damage: Int) = health -= damage
+  def decreaseHp(damage: Int) = {
+    health -= damage
+  }
+  
+  def getHP = this.health
+  def getMoney = this.money
+  def addMoney(amount: Int) = money += max(amount,0)
+  def buy(price: Int): Boolean = {
+    if(price > money) false else {
+      money -= price
+      true
+    }
+  }
   
   val towerPrices = Map[Tower, Int](new BasicTower(1,2) -> 500)
 

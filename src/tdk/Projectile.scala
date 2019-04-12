@@ -6,10 +6,12 @@ import scala.math.{sin, cos}
  * */
 class Projectile(val x: Int, val y: Int, val speed: Int, val direction: Double) extends Entity {
   
-  def advance: Projectile = {
+  def advance: Option[Projectile] = {
     val newX = x + (speed*cos(direction)).toInt
     val newY = y + (speed*sin(direction)).toInt
-    new Projectile(newX, newY, speed, direction)
+    if (newX > GUI.width || newX < 0 || newY > GUI.height || newY < 0) {
+      None
+    } else Some(new Projectile(newX, newY, speed, direction))
   }
   
 }

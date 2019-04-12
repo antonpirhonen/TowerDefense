@@ -18,6 +18,9 @@ import javafx.scene.input.MouseEvent
 import javafx.event.EventHandler
 import scalafx.scene.image._
 import scalafx.scene.layout.StackPane
+import scalafx.scene.input.KeyEvent
+import scalafx.scene.input.KeyCode
+import scalafx.scene.text._
 
 
 /* A gui that hopefully is not as bad a cat ass trophy as the last one*/
@@ -33,6 +36,9 @@ object GUI extends JFXApp{
    * */
   var gameTime = 0L
   private var canBuyTower = false
+  val width = 1000
+  val height = 600
+  
   
   stage = new JFXApp.PrimaryStage {
     
@@ -43,18 +49,16 @@ object GUI extends JFXApp{
       val gameMenu = new Menu("Towers")
       val basicTower = new MenuItem("Basic Tower - 500$") {
         onAction = (ae: ActionEvent) => {
+          
           canBuyTower = true
         }
-        
-        
-//        onMouseClicked = new EventHandler[MouseEvent] {
-//          override def handle(event: MouseEvent) {
-//            val x = event.getSceneX
-//            val y = event.getSceneY
-//            World.towers += new Tower(x.toInt,y.toInt,1,100)
-//          }
-//        }
       }
+      
+      gameMenu.items = List(basicTower)
+      menuBar.menus = List(gameMenu)
+      val rootPane = new BorderPane
+      rootPane.top = menuBar
+      
       
       onMouseClicked = new EventHandler[MouseEvent] {
         override def handle(me: MouseEvent) {
@@ -68,14 +72,12 @@ object GUI extends JFXApp{
       }
       
       
-      
-      
-      
-      gameMenu.items = List(basicTower)
-      menuBar.menus = List(gameMenu)
-      
-      val rootPane = new BorderPane
-      rootPane.top = menuBar
+      onKeyPressed = (ke: KeyEvent) => {
+        ke.code match {
+          case KeyCode.SPACE => World.spawn()
+          case _ =>
+        }
+      }
       
       val bg = new Image("file:///C:/Users/anton/Desktop/Antonin%20tiedostot/Koulu/Ohjelmointi/O2/tower-defense/src/images/TaustaAluksi.png")
       val view = new ImageView(bg)
@@ -83,9 +85,33 @@ object GUI extends JFXApp{
       val monster = new Image("file:bacteria.png")
      //val monView = new ImageView(monster).s
       
+      val hpDisp = new Text("Health: 100") {
+        x = 920
+        y = 40
+        fill = Color.Red
+      }
+      
+      val moneyDisp = new Text("Money: " + World.getMoney) {
+        x = 830
+        y = 40
+        fill = Color.GOLD
+      }
+      
+      
+      def updateStats() = {
+        hpDisp.text = "Health: " + World.getHP
+        moneyDisp.text = "Money: " + World.getMoney
+      }
+      
+      
+      
+      
+      
+      
       
       val timer = AnimationTimer(t => {
-        content = List(view, rootPane) ++ World.update.map(entity => entity match {
+        updateStats()
+        content = List(view, rootPane, hpDisp, moneyDisp) ++ World.update.map(entity => entity match {
           case monster: Monster => Circle(monster.x, monster.y, 10)
           case tower: Tower     => Rectangle(tower.x, tower.y, 30, 30)
           case projectile: Projectile => Circle(projectile.x, projectile.y, 5)      
@@ -96,4 +122,17 @@ object GUI extends JFXApp{
      timer.start()
     }
   }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 }
