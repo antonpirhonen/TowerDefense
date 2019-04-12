@@ -49,9 +49,7 @@ object GUI extends JFXApp{
       val gameMenu = new Menu("Towers")
       val basicTower = new MenuItem("Basic Tower - 500$") {
         onAction = (ae: ActionEvent) => {
-          if (World.buy(BasicTower.price)) {
-            canBuyTower = Some(BasicTower)           
-          }
+          buy(BasicTower)
         }
       }
       
@@ -59,7 +57,7 @@ object GUI extends JFXApp{
       menuBar.menus = List(gameMenu)
       val rootPane = new BorderPane
       rootPane.top = menuBar
-      
+            
       
       onMouseClicked = new EventHandler[MouseEvent] {
         override def handle(me: MouseEvent) {
@@ -67,7 +65,7 @@ object GUI extends JFXApp{
             val x = me.getSceneX
             val y = me.getSceneY
             canBuyTower.get match {
-              case BasicTower => World.towers += new BasicTower(x.toInt, y.toInt)
+              case BasicTower => World.towers += new BasicTower(x.toInt - BasicTower.size/2, y.toInt - BasicTower.size/2)
               case _             => 
             }
             canBuyTower = None
@@ -78,7 +76,8 @@ object GUI extends JFXApp{
       
       onKeyPressed = (ke: KeyEvent) => {
         ke.code match {
-          case KeyCode.SPACE => World.spawn()
+          case KeyCode.SPACE => World.nextWave()
+          //case KeyCode.B     => buy(BasicTower) //for some reason the thread didn't like this idea and it stopped the mouse
           case _ =>
         }
       }
@@ -105,11 +104,14 @@ object GUI extends JFXApp{
       def updateStats() = {
         hpDisp.text = "Health: " + World.getHP
         moneyDisp.text = "Money: " + World.getMoney
+        if (World.getHP < 0 ) gameLost()
       }
       
-      
-      
-      
+      def buy(ttype: TowerType) = {
+         if (World.buy(ttype.price)) {
+            canBuyTower = Some(ttype)           
+          }
+      }
       
       
       
@@ -125,6 +127,24 @@ object GUI extends JFXApp{
       
      timer.start()
     }
+    
+    
+    //Temporary
+    def gameLost() = {
+      scene = new Scene(1000, 600) {
+        content = new Text("Game Lost! :(") {
+          x = 100
+          y = 100
+          fill = Color.Black
+        }
+      }
+    }
+    
+    
+    
+    
+    
+    
   }
   
   

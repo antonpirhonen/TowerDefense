@@ -42,6 +42,15 @@ object BasicTower extends TowerType {
   val price = 500
 }
 
-trait TowerType
+class MachinegunTower(x: Int, y: Int) extends Tower(x,y,5,100)
+
+object MachinegunTower extends TowerType {
+  val size = 30
+  val price = 1000
+}
+
+trait TowerType {
+  val price: Int
+}
 
 

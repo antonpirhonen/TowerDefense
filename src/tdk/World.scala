@@ -4,6 +4,8 @@ import scalafx.scene.paint.Color
 import scala.math.{hypot, max}
 import scala.util.Random
 import scala.collection.mutable.ListBuffer
+import scala.collection.mutable.Queue
+import scala.collection.mutable.Buffer
 
 object World {
   
@@ -11,10 +13,12 @@ object World {
   private var health = 100
   private var money  = 1000
   
-  var entities: ListBuffer[Entity] = ListBuffer()
-  var monsters = ListBuffer[Monster]()
-  var towers = ListBuffer(new Tower(300,350,1,100), new Tower(300,250,2,100))
+  //These represent the world and should all probably be private as well. Changed by a method
+  var entities: Buffer[Entity] = ListBuffer()
+  var monsters = Buffer[Monster]()
+  var towers = Buffer(new Tower(300,350,1,100), new MachinegunTower(300,250))
   var projectiles: ListBuffer[Projectile] = ListBuffer()
+  var waves: Queue[Buffer[Monster]] = Queue()
   
   def spawn() = {
     for (i <- 0 until 50) {
@@ -22,9 +26,9 @@ object World {
     }
   }
   
-  spawn()
   
-  def update: ListBuffer[Entity] = {
+  //A method for updating the world
+  def update: Buffer[Entity] = {
     
     def activeMonsters = monsters.filter(_.location > 0)
     projectiles.foreach(proj => {
@@ -42,7 +46,7 @@ object World {
     monsters = monsters.map(_.advance).flatten
     projectiles = projectiles.map(_.advance).flatten
     projectiles = projectiles ++ towers.map(_.shoot).flatten
-    val all: ListBuffer[Entity] = monsters ++ projectiles ++ towers
+    val all: Buffer[Entity] = monsters ++ projectiles ++ towers
     all
   }
   
@@ -51,7 +55,6 @@ object World {
   def decreaseHp(damage: Int) = {
     health -= damage
   }
-  
   def getHP = this.health
   def getMoney = this.money
   def addMoney(amount: Int) = money += max(amount,0)
@@ -61,9 +64,20 @@ object World {
       true
     }
   }
+  def addWave(monsters: Buffer[Monster]) = {
+    waves += monsters
+  }
+  def addWave(multWaves : Seq[Buffer[Monster]]) = {
+    multWaves.foreach(wave => waves += wave)
+    println("multiple waves added")
+  }
+  def nextWave() = {
+    if (waves.nonEmpty) {
+      monsters = waves.dequeue()
+    } else spawn()
+  }
   
-  val towerPrices = Map[Tower, Int](new BasicTower(1,2) -> 500)
-
+  LevelLoader.wakeup
   
     
   
