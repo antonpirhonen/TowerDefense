@@ -69,7 +69,6 @@ object World {
   }
   def addWave(multWaves : Seq[Buffer[Monster]]) = {
     multWaves.foreach(wave => waves += wave)
-    println("multiple waves added")
   }
   def nextWave() = {
     if (waves.nonEmpty) {
