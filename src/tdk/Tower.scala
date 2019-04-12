@@ -35,8 +35,13 @@ class Tower(val x: Int, val y: Int, val firePerSec: Double, val range: Int) exte
 
 }
 
-class BasicTower(x: Int, y: Int) extends Tower(x,y,1,100) {
+class BasicTower(x: Int, y: Int) extends Tower(x,y,1,100) 
+
+object BasicTower extends TowerType {
   val size = 30
+  val price = 500
 }
+
+trait TowerType
 
 

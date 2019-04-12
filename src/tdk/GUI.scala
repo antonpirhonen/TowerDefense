@@ -35,7 +35,7 @@ object GUI extends JFXApp{
    * UpdateLogic/drawGraphics
    * */
   var gameTime = 0L
-  private var canBuyTower = false
+  private var canBuyTower: Option[TowerType] = None
   val width = 1000
   val height = 600
   
@@ -49,8 +49,9 @@ object GUI extends JFXApp{
       val gameMenu = new Menu("Towers")
       val basicTower = new MenuItem("Basic Tower - 500$") {
         onAction = (ae: ActionEvent) => {
-          
-          canBuyTower = true
+          if (World.buy(BasicTower.price)) {
+            canBuyTower = Some(BasicTower)           
+          }
         }
       }
       
@@ -62,11 +63,14 @@ object GUI extends JFXApp{
       
       onMouseClicked = new EventHandler[MouseEvent] {
         override def handle(me: MouseEvent) {
-          if (canBuyTower) {
+          if (canBuyTower.nonEmpty) {
             val x = me.getSceneX
             val y = me.getSceneY
-            canBuyTower = false
-            World.towers += new BasicTower(x.toInt, y.toInt)
+            canBuyTower.get match {
+              case BasicTower => World.towers += new BasicTower(x.toInt, y.toInt)
+              case _             => 
+            }
+            canBuyTower = None
           }          
         }
       }
