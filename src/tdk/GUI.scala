@@ -66,7 +66,7 @@ object GUI extends JFXApp{
             val y = me.getSceneY
             canBuyTower.get match {
               case BasicTower => World.towers += new BasicTower(x.toInt - BasicTower.size/2, y.toInt - BasicTower.size/2)
-              case _             => 
+              case _          => 
             }
             canBuyTower = None
           }          
@@ -77,7 +77,7 @@ object GUI extends JFXApp{
       onKeyPressed = (ke: KeyEvent) => {
         ke.code match {
           case KeyCode.SPACE => World.nextWave()
-          //case KeyCode.B     => buy(BasicTower) //for some reason the thread didn't like this idea and it stopped the mouse
+          case KeyCode.B     => buy(BasicTower) //for some reason the thread didn't like this idea and it stopped the mouse
           case _ =>
         }
       }
