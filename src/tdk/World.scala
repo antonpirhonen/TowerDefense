@@ -22,7 +22,7 @@ object World {
   
   def spawn() = {
     for (i <- 0 until 50) {
-      monsters = monsters :+ new Monster(-25*i, -25*i, 2, -25*i)
+      monsters = monsters :+ new Monster(-25*i, -25*i, 2, 2, -25*i)
     }
   }
   
@@ -38,7 +38,8 @@ object World {
       if (monsterToShoot.nonEmpty) {
         monsters -= monsterToShoot.get
         projectiles -= proj
-        money += monsterToShoot.get.bounty
+        val damaged = monsterToShoot.get.takeDamage(proj.damage)
+        if (damaged.nonEmpty) monsters += damaged.get else money += monsterToShoot.get.bounty
       }
     })
     
@@ -72,7 +73,7 @@ object World {
   }
   def nextWave() = {
     if (waves.nonEmpty) {
-      monsters = waves.dequeue()
+      monsters = monsters ++ waves.dequeue()
     } else spawn()
   }
   

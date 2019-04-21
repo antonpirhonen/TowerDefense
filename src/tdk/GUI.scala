@@ -52,8 +52,13 @@ object GUI extends JFXApp{
           buy(BasicTower)
         }
       }
+      val mgTower = new MenuItem("Machinegun Tower - 1000$") {
+        onAction = (ae: ActionEvent) => {
+          buy(MachinegunTower)
+        }
+      }
       
-      gameMenu.items = List(basicTower)
+      gameMenu.items = List(basicTower, mgTower)
       menuBar.menus = List(gameMenu)
       val rootPane = new BorderPane
       rootPane.top = menuBar
@@ -66,6 +71,7 @@ object GUI extends JFXApp{
             val y = me.getSceneY
             canBuyTower.get match {
               case BasicTower => World.towers += new BasicTower(x.toInt - BasicTower.size/2, y.toInt - BasicTower.size/2)
+              case MachinegunTower => World.towers += new MachinegunTower(x.toInt - BasicTower.size/2, y.toInt - BasicTower.size/2)
               case _          => 
             }
             canBuyTower = None
@@ -82,7 +88,7 @@ object GUI extends JFXApp{
         }
       }
       
-      val bg = new Image("file:///C:/Users/anton/Desktop/Antonin%20tiedostot/Koulu/Ohjelmointi/O2/tower-defense/src/images/TaustaAluksi.png")
+      val bg = new Image("file:images/TaustaAluksi.png")
       val view = new ImageView(bg)
       
       val monster = new Image("file:bacteria.png")
