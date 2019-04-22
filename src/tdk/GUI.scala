@@ -52,13 +52,18 @@ object GUI extends JFXApp{
           buy(BasicTower)
         }
       }
-      val mgTower = new MenuItem("Machinegun Tower - 1000$") {
+      val mgTower = new MenuItem("Machinegun Tower - 1500$") {
         onAction = (ae: ActionEvent) => {
           buy(MachinegunTower)
         }
       }
+      val shotgunTower = new MenuItem("Shotgun Tower - 1000$") {
+        onAction = (ae: ActionEvent) => {
+          buy(ShotgunTower)
+        }
+      }
       
-      gameMenu.items = List(basicTower, mgTower)
+      gameMenu.items = List(basicTower, shotgunTower, mgTower)
       menuBar.menus = List(gameMenu)
       val rootPane = new BorderPane
       rootPane.top = menuBar
@@ -72,6 +77,7 @@ object GUI extends JFXApp{
             canBuyTower.get match {
               case BasicTower => World.towers += new BasicTower(x.toInt - BasicTower.size/2, y.toInt - BasicTower.size/2)
               case MachinegunTower => World.towers += new MachinegunTower(x.toInt - BasicTower.size/2, y.toInt - BasicTower.size/2)
+              case ShotgunTower => World.towers += new ShotgunTower(x.toInt - BasicTower.size/2, y.toInt - BasicTower.size/2)
               case _          => 
             }
             canBuyTower = None
@@ -83,16 +89,15 @@ object GUI extends JFXApp{
       onKeyPressed = (ke: KeyEvent) => {
         ke.code match {
           case KeyCode.SPACE => World.nextWave()
-          case KeyCode.B     => buy(BasicTower) //for some reason the thread didn't like this idea and it stopped the mouse
+//          case KeyCode.B if canBuyTower.isEmpty => buy(BasicTower) //for some reason the thread didn't like this idea and it stopped the mouse
+//          case KeyCode.M if canBuyTower.isEmpty => buy(MachinegunTower)
+//          case KeyCode.S if canBuyTower.isEmpty => buy(ShotgunTower)
           case _ =>
         }
       }
       
       val bg = new Image("file:images/TaustaAluksi.png")
       val view = new ImageView(bg)
-      
-      val monster = new Image("file:bacteria.png")
-     //val monView = new ImageView(monster).s
       
       val hpDisp = new Text("Health: 100") {
         x = 920
