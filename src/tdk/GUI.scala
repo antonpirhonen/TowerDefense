@@ -125,11 +125,28 @@ object GUI extends JFXApp{
       }
       
       
+      def monsterImg(mon: Monster): Circle = {
+        mon match {
+          case a: NormalMonster => Circle(a.x, a.y, 10)
+          case b: FastMonster   => {
+            val temp = Circle(b.x, b.y, 5)
+            temp.fill_=(Color.Green)
+            temp
+          }
+          case c: TankMonster   => {
+            val temp = Circle(c.x,c.y,20)
+            temp.fill = Color.Red
+            temp
+          }
+        }
+      }
+      
+      
       
       val timer = AnimationTimer(t => {
         updateStats()
         content = List(view, rootPane, hpDisp, moneyDisp) ++ World.update.map(entity => entity match {
-          case monster: Monster => Circle(monster.x, monster.y, 10)
+          case monster: Monster => monsterImg(monster)
           case tower: Tower     => Rectangle(tower.x, tower.y, 30, 30)
           case projectile: Projectile => Circle(projectile.x, projectile.y, 5)      
         })

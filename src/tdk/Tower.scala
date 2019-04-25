@@ -49,7 +49,7 @@ object MachinegunTower extends TowerType {
   val price = 1500
 }
 
-class ShotgunTower(x: Int, y: Int) extends Tower(x,y,1,100) {
+class ShotgunTower(x: Int, y: Int) extends Tower(x,y,2,100) {
   override def shoot: Vector[Option[Projectile]] = {
     
     val enemiesInRange = World.monsters.filter(mon => hypot(x - mon.x, y - mon.y) < range)
