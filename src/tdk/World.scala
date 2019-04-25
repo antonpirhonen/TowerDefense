@@ -4,6 +4,8 @@ import scala.math.{hypot, max}
 import scala.util.Random
 import scala.collection.mutable.Queue
 import scala.collection.mutable.Buffer
+import scala.collection.mutable.ListBuffer
+
 
 object World {
   
@@ -15,7 +17,7 @@ object World {
   var entities: Buffer[Entity] = Buffer()
   var monsters = Buffer[Monster]()
   var towers = Buffer(new Tower(300,350,1,100), new MachinegunTower(300,250))
-  var projectiles: Buffer[Projectile] = Buffer()
+  var projectiles: ListBuffer[Projectile] = ListBuffer()
   var waves: Queue[Buffer[Monster]] = Queue()
   
   def spawn() = {
@@ -52,7 +54,7 @@ object World {
   
   
   def decreaseHp(damage: Int) = {
-    health -= scala.math.max(damage, 0)
+    health -= damage
   }
   def getHP = this.health
   def getMoney = this.money
