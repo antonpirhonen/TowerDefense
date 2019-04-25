@@ -52,7 +52,7 @@ object World {
   
   
   def decreaseHp(damage: Int) = {
-    health -= max(damage, 0)
+    health -= scala.math.max(damage, 0)
   }
   def getHP = this.health
   def getMoney = this.money
