@@ -1,7 +1,9 @@
 package tdk
 
+import scalafx.scene.paint.Color
 import scala.math.{hypot, max}
 import scala.util.Random
+import scala.collection.mutable.ListBuffer
 import scala.collection.mutable.Queue
 import scala.collection.mutable.Buffer
 
@@ -12,15 +14,15 @@ object World {
   private var money  = 1000
   
   //These represent the world and should all probably be private as well. Changed by a method
-  var entities: Buffer[Entity] = Buffer()
+  var entities: Buffer[Entity] = ListBuffer()
   var monsters = Buffer[Monster]()
   var towers = Buffer(new Tower(300,350,1,100), new MachinegunTower(300,250))
-  var projectiles: Buffer[Projectile] = Buffer()
+  var projectiles: ListBuffer[Projectile] = ListBuffer()
   var waves: Queue[Buffer[Monster]] = Queue()
   
   def spawn() = {
     for (i <- 0 until 50) {
-      monsters = monsters :+ new Monster(-25*i, -25*i, 2, 2, 20, -25*i)
+      monsters = monsters :+ new Monster(-25*i, -25*i, 2, 2, -25*i)
     }
   }
   
@@ -44,7 +46,7 @@ object World {
     
     monsters = monsters.map(_.advance).flatten
     projectiles = projectiles.map(_.advance).flatten
-    projectiles = projectiles ++ towers.map(_.shoot).flatten.flatten
+    projectiles = projectiles ++ towers.map(_.shoot).flatten
     val all: Buffer[Entity] = monsters ++ projectiles ++ towers
     all
   }

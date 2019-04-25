@@ -6,24 +6,6 @@ import scala.collection.mutable.ListBuffer
  * */
 object LevelLoader {
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   def wakeup = Unit
   
   val wave1 = {
