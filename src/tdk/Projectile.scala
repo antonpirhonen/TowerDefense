@@ -6,8 +6,6 @@ import scala.math.{sin, cos}
  * */
 class Projectile(val x: Int, val y: Int, val speed: Int, val direction: Double) extends Entity {
   
-  val damage = 1
-  
   def advance: Option[Projectile] = {
     val newX = x + (speed*cos(direction)).toInt
     val newY = y + (speed*sin(direction)).toInt
