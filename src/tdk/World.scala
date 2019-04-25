@@ -52,7 +52,7 @@ object World {
   
   
   def decreaseHp(damage: Int) = {
-    health -= damage
+    health -= max(damage, 0)
   }
   def getHP = this.health
   def getMoney = this.money
