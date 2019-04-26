@@ -1,7 +1,7 @@
 package tdk
 import scala.math.{hypot, pow}
 
-abstract class Monster(val x: Int, val y: Int, val hp: Int, val location: Int) extends Entity {
+abstract class Monster(val x: Int, val y: Int, val location: Int, val hp: Int) extends Entity {
   
   val bounty: Int
   
@@ -17,19 +17,19 @@ abstract class Monster(val x: Int, val y: Int, val hp: Int, val location: Int) e
 }
 
 
-class NormalMonster(x: Int, y: Int, hp: Int, location: Int) extends Monster(x,y,hp,location) {
+class NormalMonster(x: Int, y: Int, location: Int, hp: Int = NormalMonster.startHP) extends Monster(x,y,location,hp) {
   
   val bounty = 20
   
   def takeDamage(projDamage: Int): Option[Monster] = {
-    if (projDamage < hp) Some(new NormalMonster(x,y,hp - projDamage, location)) else None
+    if (projDamage < hp) Some(new NormalMonster(x,y, location,hp - projDamage)) else None
   }
   
   def advance: Option[Monster] = {
     if (location > pLength) { 
       World.decreaseHp(NormalMonster.damage)
       None
-    } else Some(new NormalMonster(newx, newy, hp, location + NormalMonster.speed))
+    } else Some(new NormalMonster(newx, newy, location + NormalMonster.speed, hp))
   }
   
 }
@@ -43,19 +43,19 @@ object NormalMonster {
 
 
 
-class FastMonster(x: Int, y: Int, hp: Int, location: Int) extends Monster(x,y,hp,location) {
+class FastMonster(x: Int, y: Int, location: Int, hp: Int = FastMonster.startHP) extends Monster(x,y,location,hp) {
   
   val bounty = 10
   
   def takeDamage(projDamage: Int): Option[Monster] = {
-    if (projDamage < hp) Some(new FastMonster(x,y,hp - projDamage, location)) else None
+    if (projDamage < hp) Some(new FastMonster(x,y,location,hp - projDamage)) else None
   }
   
   def advance: Option[Monster] = {
     if (location > pLength) { 
       World.decreaseHp(FastMonster.damage)
       None
-    } else Some(new FastMonster(newx, newy, hp, location + FastMonster.speed))
+    } else Some(new FastMonster(newx, newy, location + FastMonster.speed, hp))
   }
 }
 
@@ -67,19 +67,19 @@ object FastMonster {
 }
 
 
-class TankMonster(x: Int, y: Int, hp: Int, location: Int) extends Monster(x,y,hp,location) {
+class TankMonster(x: Int, y: Int, location: Int, hp: Int = TankMonster.startHP) extends Monster(x,y,location,hp) {
   
   val bounty = 35
   
   def takeDamage(projDamage: Int): Option[Monster] = {
-    if (projDamage < hp) Some(new TankMonster(x,y,hp - projDamage, location)) else None
+    if (projDamage < hp) Some(new TankMonster(x,y,location,hp - projDamage)) else None
   }
   
   def advance: Option[Monster] = {
     if (location > pLength) { 
       World.decreaseHp(TankMonster.damage)
       None
-    } else Some(new TankMonster(newx, newy, hp, location + TankMonster.speed))
+    } else Some(new TankMonster(newx, newy, location + TankMonster.speed, hp))
   }
 }
 

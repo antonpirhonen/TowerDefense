@@ -22,7 +22,7 @@ object World {
   
   def spawn() = {
     for (i <- 0 until 50) {
-      monsters = monsters :+ new NormalMonster(-25*i, -25*i, NormalMonster.startHP, -25*i)
+      monsters = monsters :+ new NormalMonster(-25*i, -25*i, -25*i)
     }
   }
   
