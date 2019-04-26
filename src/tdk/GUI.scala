@@ -143,6 +143,8 @@ object GUI extends JFXApp{
         }
       }
       
+//      val tiles = Grid.tiles.map(tile => Rectangle(tile.x, tile.y, tile.side, tile.side))
+//      tiles.foreach(_.fill_=(Color.Gray))
       
       
       val timer = AnimationTimer(t => {

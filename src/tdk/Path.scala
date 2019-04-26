@@ -22,6 +22,15 @@ class Pos(val x: Int, val y: Int)
 
 object Grid {
   
+  val tiles = for (x <- 0 until 20; y <- 0 until 12) yield new Tile(x, y)
+  
+}
+
+class Tile(val gridX: Int, val gridY: Int) {
+  var isPath = false
+  val side = 50
+  def x = gridX*side
+  def y = gridY*side
 }
 
 
