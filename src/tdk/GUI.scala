@@ -35,7 +35,7 @@ object GUI extends JFXApp{
    * clock: AnimationTimer("taski, jota tekee joka tickillä")
    * UpdateLogic/drawGraphics
    * */
-  var gameFile = ""
+  var gameFile = "levels/testLevel.level"
   var gameTime = 0L
   private var canBuyTower: Option[TowerType] = None
   val width = 1000

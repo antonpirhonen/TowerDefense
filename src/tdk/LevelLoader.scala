@@ -2,6 +2,7 @@ package tdk
 
 import scala.collection.mutable.Buffer
 import scala.io.Source
+import java.io.BufferedReader
 
 import scala.collection.mutable.ListBuffer
 /**This Object initializes the World
@@ -9,6 +10,33 @@ import scala.collection.mutable.ListBuffer
 object LevelLoader {
   
   def wakeup = Unit
+  
+  def loadGame(str: String) = {
+    val gameFile = Source.fromFile(str)
+    def readLine(str: String) = {
+      val mons = str.trim.split(',')
+      mons.foreach(mon => {
+        val monType = mon.trim.takeWhile(_ != '*')
+        val monAmount = mon.trim.reverse.takeWhile(_ != '*').reverse.toInt
+        val toAdd = monType match {
+          case "normal" => for (rep <- 0 until monAmount) yield new NormalMonster(-25, -25, -25*rep)
+          case "fast"   => for (rep <- 0 until monAmount) yield new FastMonster(-25, -25, -25*rep)
+          case "tank"   => for (rep <- 0 until monAmount) yield new TankMonster(-25, -25, -25*rep)
+          case _        => IndexedSeq[Monster]()
+        }
+      World.monsters.++=(toAdd)  
+      })
+    }
+    
+    try {
+      if (gameFile.nonEmpty) {
+        val lines = gameFile.getLines()
+        lines.foreach(readLine)
+      }
+    } finally {
+      gameFile.close()
+    }   
+  }
   
 //  val gameFile = Source.fromFile("levels.testLevel.level")
 //  def readLine(str: String) = {

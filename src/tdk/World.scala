@@ -77,7 +77,7 @@ object World {
     } else spawn()
   }
   
-  LevelLoader.wakeup
+  LevelLoader.loadGame(GUI.gameFile)
   
     
   
