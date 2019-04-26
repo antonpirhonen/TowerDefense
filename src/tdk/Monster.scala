@@ -8,21 +8,11 @@ abstract class Monster(val x: Int, val y: Int, val hp: Int, val location: Int) e
   val p = Path.path
   val pLength = p.length
   
-  def newx = if (p.indices contains location) p(location).x else x
-  def newy = if (p.indices contains location) p(location).y else y
-  def takeDamage(projDamage: Int): Option[Monster]
-//  def takeDamage(projDamage: Int): Option[Monster] = {
-//    if (projDamage < hp) Some(new Monster(x,y,speed,hp - projDamage, bounty, location)) else None
-//  }
-  def advance: Option[Monster]
+  def newx = if (location >= 0 && location < pLength) p(location).x else x
+  def newy = if (location >= 0 && location < pLength) p(location).y else y
   
-//  def advance: Option[Monster] = {
-//    
-//    if (location > pLength) { 
-//      World.decreaseHp(1)
-//      None
-//    } else Some(new Monster(newx, newy, speed, hp, bounty, location + speed))
-//  }
+  def takeDamage(projDamage: Int): Option[Monster]
+  def advance: Option[Monster]
   
 }
 

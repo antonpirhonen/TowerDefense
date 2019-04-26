@@ -21,6 +21,7 @@ import scalafx.scene.layout.StackPane
 import scalafx.scene.input.KeyEvent
 import scalafx.scene.input.KeyCode
 import scalafx.scene.text._
+import scalafx.stage.FileChooser
 
 
 /* A gui that hopefully is not as bad a cat ass trophy as the last one*/
@@ -34,6 +35,7 @@ object GUI extends JFXApp{
    * clock: AnimationTimer("taski, jota tekee joka tickillä")
    * UpdateLogic/drawGraphics
    * */
+  var gameFile = ""
   var gameTime = 0L
   private var canBuyTower: Option[TowerType] = None
   val width = 1000

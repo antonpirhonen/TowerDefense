@@ -1,30 +1,57 @@
 package tdk
 
 import scala.collection.mutable.Buffer
+import scala.io.Source
+
 import scala.collection.mutable.ListBuffer
 /**This Object initializes the World
  * */
 object LevelLoader {
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   def wakeup = Unit
+  
+  val gameFile = Source.fromFile("levels.testLevel.level")
+  def readLine(str: String) = {
+    val mons = str.trim.split(',')
+    mons.foreach(mon => {
+      val monType = mon.trim.takeWhile(_ != '*')
+      val monAmount = mon.trim.reverse.takeWhile(_ != '*').reverse.toInt
+      monType match {
+        case "normal" => for (rep <- 0 until monAmount) yield new NormalMonster(-25, -25, NormalMonster.startHP, -25*rep)
+        case "fast"   => for (rep <- 0 until monAmount) yield new FastMonster(-25, -25, FastMonster.startHP, -25*rep)
+        case "tank"   => for (rep <- 0 until monAmount) yield new TankMonster(-25, -25, TankMonster.startHP, -25*rep)
+      }
+      
+      
+    })
+  }
+  
+  try {
+    if (gameFile.nonEmpty) {
+      val lines = gameFile.getLines()
+      
+      
+      
+    }
+  } finally {
+    gameFile.close()
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   val wave1 = {
     for (i <- 0 until 50) yield new NormalMonster(-25, -25, NormalMonster.startHP, -25*i)
