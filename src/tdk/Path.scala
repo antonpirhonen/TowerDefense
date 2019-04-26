@@ -20,6 +20,10 @@ object Path {
 
 class Pos(val x: Int, val y: Int)
 
+object Grid {
+  
+}
+
 
 
 

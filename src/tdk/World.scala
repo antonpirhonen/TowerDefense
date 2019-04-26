@@ -10,11 +10,14 @@ import scala.collection.mutable.ListBuffer
 object World {
   
   def time = GUI.gameTime
+  private var lastSpawn = 0L
   private var health = 100
   private var money  = 1000
+  private var spawnFreq = 0.2
   
   //These represent the world and should all probably be private as well. Changed by a method
   var entities: Buffer[Entity] = Buffer()
+  var unspawnedMonsters = Queue[Monster]()
   var monsters = Buffer[Monster]()
   var towers = Buffer(new Tower(300,350,1,100), new MachinegunTower(300,250))
   var projectiles: ListBuffer[Projectile] = ListBuffer()
@@ -22,7 +25,7 @@ object World {
   
   def spawn() = {
     for (i <- 0 until 50) {
-      monsters = monsters :+ new NormalMonster(-25*i, -25*i, -25*i)
+      unspawnedMonsters = unspawnedMonsters :+ new NormalMonster(-200, -200, -25*i)
     }
   }
   
@@ -43,6 +46,8 @@ object World {
       }
     })
     
+    val last = lastSpawn
+    if (unspawnedMonsters.nonEmpty && (time - last) > spawnFreq*10E8) { monsters += unspawnedMonsters.dequeue(); lastSpawn = last }
     
     monsters = monsters.map(_.advance).flatten
     projectiles = projectiles.map(_.advance).flatten
@@ -57,6 +62,7 @@ object World {
     health -= damage
   }
   def getHP = this.health
+  def updateSpawnFreq(freq: Double) = this.spawnFreq = freq
   def getMoney = this.money
   def addMoney(amount: Int) = money += max(amount,0)
   def buy(price: Int): Boolean = {
@@ -73,13 +79,13 @@ object World {
   }
   def nextWave() = {
     if (waves.nonEmpty) {
-      monsters = monsters ++ waves.dequeue()
+      unspawnedMonsters = unspawnedMonsters ++ waves.dequeue()
     } else spawn()
   }
   
   LevelLoader.loadGame(GUI.gameFile)
   
-    
+  
   
   
   

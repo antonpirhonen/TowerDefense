@@ -24,7 +24,7 @@ object LevelLoader {
           case "tank"   => for (rep <- 0 until monAmount) yield new TankMonster(-25, -25, -25*rep)
           case _        => IndexedSeq[Monster]()
         }
-      World.monsters.++=(toAdd)  
+      World.waves.+=(toAdd.toBuffer)  
       })
     }
     
@@ -96,5 +96,5 @@ object LevelLoader {
     for (i <- 0 until 10) yield new TankMonster(-25*i, -25*i, -10*i)
   }
   
-  World.addWave(List(wave1,wave2,wave3,wave4).map(_.toBuffer))
+  //World.addWave(List(wave1,wave2,wave3,wave4).map(_.toBuffer))
 }
