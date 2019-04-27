@@ -22,6 +22,7 @@ import scalafx.scene.input.KeyEvent
 import scalafx.scene.input.KeyCode
 import scalafx.scene.text._
 import scalafx.stage.FileChooser
+import scalafx.scene.control.Button
 
 
 /* A gui that hopefully is not as bad a cat ass trophy as the last one*/
@@ -45,7 +46,7 @@ object GUI extends JFXApp{
   stage = new JFXApp.PrimaryStage {
     
     title = "TDK GUI TEST" //the title of the window
-    scene = new Scene(1000, 600) {
+    val mainScene: Scene = new Scene(1000, 600) {
       
       val menuBar = new MenuBar
       val gameMenu = new Menu("Towers")
@@ -65,8 +66,22 @@ object GUI extends JFXApp{
         }
       }
       
+      val loadMenu = new Menu("Game menu")
+      val loadGame = new MenuItem("Load game") {
+        onAction = (ae: ActionEvent) => {
+          val fChooser = new FileChooser
+          val selectedFile = fChooser.showOpenDialog(stage)
+          if (selectedFile != null) {
+            gameFile = selectedFile.toString().replace('\\', '/')
+            World.initializeWorld()
+            LevelLoader.loadGame(gameFile)
+          }
+        }
+      }
+      
       gameMenu.items = List(basicTower, shotgunTower, mgTower)
-      menuBar.menus = List(gameMenu)
+      loadMenu.items = List(loadGame)
+      menuBar.menus = List(gameMenu, loadMenu)
       val rootPane = new BorderPane
       rootPane.top = menuBar
             
@@ -117,7 +132,7 @@ object GUI extends JFXApp{
       def updateStats() = {
         hpDisp.text = "Health: " + World.getHP
         moneyDisp.text = "Money: " + World.getMoney
-        if (World.getHP < 0 ) gameLost()
+        if (World.getHP < 1 ) gameLost
       }
       
       def buy(ttype: TowerType) = {
@@ -150,6 +165,11 @@ object GUI extends JFXApp{
       })).flatten
 
       
+      val temp = new Button("temp") {
+        onAction = (ae: ActionEvent) => {
+          gameLost
+        }
+      }
       
       val timer = AnimationTimer(t => {
         updateStats()
@@ -164,15 +184,28 @@ object GUI extends JFXApp{
      timer.start()
     }
     
+    scene = mainScene
     
     //Temporary
     def gameLost() = {
       scene = new Scene(1000, 600) {
-        content = new Text("Game Lost! :(") {
-          x = 100
-          y = 100
-          fill = Color.Black
+        World.initializeWorld()
+        val bg = Rectangle(1000,1000)
+        val text = new Text("Game Over!")
+        text.fill_=(Color.Red)
+        text.scaleX = 15
+        text.scaleY = 10
+        text.setX(470)
+        text.setY(250)
+        val button = new Button("Play Again!") {
+          onMouseClicked = (me: MouseEvent) => {
+            stage.setScene(mainScene)
+          }
         }
+        button.relocate(475, 400)
+        
+        
+        content = List(bg, text, button)
       }
     }
     

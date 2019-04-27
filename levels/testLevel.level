@@ -1,3 +1,8 @@
+normal*5,fast*5,tank*10
+normal*9
+normal*15
+fast*5,normal*10
+tank*5
 fast*20
 fast*30
 tank*50

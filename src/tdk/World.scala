@@ -19,7 +19,7 @@ object World {
   var entities: Buffer[Entity] = Buffer()
   var unspawnedMonsters = Queue[Monster]()
   var monsters = Buffer[Monster]()
-  var towers = Buffer(new Tower(300,350,1,100), new MachinegunTower(300,250))
+  var towers = Buffer[Tower]()
   var projectiles: ListBuffer[Projectile] = ListBuffer()
   var waves: Queue[Buffer[Monster]] = Queue()
   
@@ -83,8 +83,21 @@ object World {
     } else spawn()
   }
   
-  LevelLoader.loadGame(GUI.gameFile)
+  def initializeWorld() = {
+    lastSpawn = 0L
+    health = 100
+    money = 1000
+    spawnFreq = 0.2
+    entities = Buffer()
+    unspawnedMonsters = Queue[Monster]()
+    monsters = Buffer[Monster]()
+    towers = Buffer[Tower]()
+    projectiles = ListBuffer()
+    waves = Queue()
+    LevelLoader.loadGame(GUI.gameFile)
+  }
   
+  LevelLoader.loadGame(GUI.gameFile)
   
   
   

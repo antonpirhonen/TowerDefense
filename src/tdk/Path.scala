@@ -11,14 +11,23 @@ object Path {
   val screenY = 600
   
   //from point x = 0 -> 500, y = 300 -> 300
-  val x0to500   = for (x <- 0 to 500) yield (new Pos(x, 300))
-  val y300to100 = for (y <- 300 to 100 by -1) yield (new Pos(500, y))
-  val x500to1k  = for (x <- 500 to 1000) yield (new Pos(x, 100))
+  val x0to500   = for (x <- 0 to 525) yield (new Pos(x, 325))
+  val y300to100 = for (y <- 325 to 125 by -1) yield (new Pos(525, y))
+  val x500to1k  = for (x <- 525 to 1000) yield (new Pos(x, 125))
   
   val path = x0to500 ++ y300to100 ++ x500to1k
   
-  val tilePath = Grid.tiles(5).map(tile => tile.isPath = true)
+  for (i <- 0 until 11) {
+    Grid.tiles(6)(i).isPath = true
+  }
   
+  for (i <- 6 to 2 by -1) {
+    Grid.tiles(i)(10).isPath = true
+  }
+  
+  for (i <- 10 until 20) {
+    Grid.tiles(2)(i).isPath = true
+  }
   
 }
 

@@ -12,8 +12,7 @@ abstract class Monster(val x: Int, val y: Int, val location: Int, val hp: Int) e
   def newy = if (location >= 0 && location < pLength) p(location).y else y
   
   def takeDamage(projDamage: Int): Option[Monster]
-  def advance: Option[Monster]
-  
+  def advance: Option[Monster] 
 }
 
 

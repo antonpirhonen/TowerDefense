@@ -15,17 +15,17 @@ object LevelLoader {
     val gameFile = Source.fromFile(str)
     def readLine(str: String) = {
       val mons = str.trim.split(',')
-      mons.foreach(mon => {
+      val toAdd = mons.map(mon => {
         val monType = mon.trim.takeWhile(_ != '*')
         val monAmount = mon.trim.reverse.takeWhile(_ != '*').reverse.toInt
-        val toAdd = monType match {
+        monType match {
           case "normal" => for (rep <- 0 until monAmount) yield new NormalMonster(-25, -25, -25*rep)
           case "fast"   => for (rep <- 0 until monAmount) yield new FastMonster(-25, -25, -25*rep)
           case "tank"   => for (rep <- 0 until monAmount) yield new TankMonster(-25, -25, -25*rep)
           case _        => IndexedSeq[Monster]()
         }
-      World.waves.+=(toAdd.toBuffer)  
       })
+      World.waves.+=(toAdd.flatten.toBuffer)
     }
     
     try {
