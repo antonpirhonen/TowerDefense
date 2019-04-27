@@ -1,7 +1,5 @@
 package tdk
 
-import scala.collection.mutable.Buffer
-
 
 /*Represents the path a monster proceeds on
  * */
@@ -19,13 +17,7 @@ object Path {
   
   val path = x0to500 ++ y300to100 ++ x500to1k
   
-  
-  var newPath = Buffer[Tile]()
-  val tilePath = Grid.tiles(5).map(tile => { newPath += tile; tile.isPath = true })
-  for (0 until 12) {
-    
-  }
-  val startLoc: Pos = new Pos(newPath.head.x, newPath.head.y)
+  val tilePath = Grid.tiles(5).map(tile => tile.isPath = true)
   
   
 }
@@ -43,7 +35,6 @@ object Grid {
 }
 
 class Tile(val gridX: Int, val gridY: Int) {
-  var number = -1
   var isPath = false
   val side = 50
   def x = gridX*side

@@ -25,7 +25,7 @@ object World {
   
   def spawn() = {
     for (i <- 0 until 50) {
-      unspawnedMonsters = unspawnedMonsters :+ new TestMonster()
+      unspawnedMonsters = unspawnedMonsters :+ new NormalMonster(-200, -200, -25*i)
     }
   }
   
@@ -33,9 +33,9 @@ object World {
   //A method for updating the world
   def update: Buffer[Entity] = {
     
-    //def activeMonsters = monsters.filter(_.location > 0)
+    def activeMonsters = monsters.filter(_.location > 0)
     projectiles.foreach(proj => {
-      val monstersClose  = monsters.filter(mon => hypot(mon.x - proj.x, mon.y - proj.y) < Projectile.size)
+      val monstersClose  = activeMonsters.filter(mon => hypot(mon.x - proj.x, mon.y - proj.y) < Projectile.size)
       val monsterToShoot = if (monstersClose.nonEmpty) Some(monstersClose.minBy(mon => hypot(mon.x - proj.x, mon.y - proj.y)) ) 
                            else None
       if (monsterToShoot.nonEmpty) {
@@ -83,7 +83,7 @@ object World {
     } else spawn()
   }
   
-//  LevelLoader.loadGame(GUI.gameFile)
+  LevelLoader.loadGame(GUI.gameFile)
   
   
   
