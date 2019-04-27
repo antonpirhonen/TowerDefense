@@ -16,13 +16,21 @@ object Path {
   val x500to1k  = for (x <- 500 to 1000) yield (new Pos(x, 100))
   
   val path = x0to500 ++ y300to100 ++ x500to1k
+  
+  val tilePath = Grid.tiles(5).map(tile => tile.isPath = true)
+  
+  
 }
 
 class Pos(val x: Int, val y: Int)
 
 object Grid {
   
-  val tiles = for (x <- 0 until 20; y <- 0 until 12) yield new Tile(x, y)
+  var tiles = Array[Array[Tile]]()
+  for (y <- 0 until 12) {
+    val xRow = for (x<- 0 until 20) yield new Tile(x, y)
+    tiles = tiles :+ xRow.toArray
+  }
   
 }
 

@@ -98,8 +98,8 @@ object GUI extends JFXApp{
         }
       }
       
-      val bg = new Image("file:images/TaustaAluksi.png")
-      val view = new ImageView(bg)
+//      val bg = new Image("file:images/TaustaAluksi.png")
+//      val view = new ImageView(bg)
       
       val hpDisp = new Text("Health: 100") {
         x = 920
@@ -110,7 +110,7 @@ object GUI extends JFXApp{
       val moneyDisp = new Text("Money: " + World.getMoney) {
         x = 830
         y = 40
-        fill = Color.GOLD
+        fill = Color.Orange
       }
       
       
@@ -143,13 +143,17 @@ object GUI extends JFXApp{
         }
       }
       
-//      val tiles = Grid.tiles.map(tile => Rectangle(tile.x, tile.y, tile.side, tile.side))
-//      tiles.foreach(_.fill_=(Color.Gray))
+      val tiles = Grid.tiles.map(column => column.map(tile => {
+        val img = Rectangle(tile.x, tile.y, tile.side, tile.side)
+        if (tile.isPath) img.fill_=(Color.Gray) else img.fill_=(Color.LightGreen)
+        img
+      })).flatten
+
       
       
       val timer = AnimationTimer(t => {
         updateStats()
-        content = List(view, rootPane, hpDisp, moneyDisp) ++ World.update.map(entity => entity match {
+        content = tiles ++ List(rootPane, hpDisp, moneyDisp) ++ World.update.map(entity => entity match {
           case monster: Monster => monsterImg(monster)
           case tower: Tower     => Rectangle(tower.x, tower.y, 30, 30)
           case projectile: Projectile => Circle(projectile.x, projectile.y, 5)      
