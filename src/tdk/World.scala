@@ -23,11 +23,11 @@ object World {
   var projectiles: ListBuffer[Projectile] = ListBuffer()
   var waves: Queue[Buffer[Monster]] = Queue()
   
-  def spawn() = {
-    for (i <- 0 until 50) {
-      unspawnedMonsters = unspawnedMonsters :+ new NormalMonster(-200, -200, -25*i)
-    }
-  }
+//  def spawn() = {
+//    for (i <- 0 until 50) {
+//      unspawnedMonsters = unspawnedMonsters :+ new NormalMonster(-200, -200, -25*i)
+//    }
+//  }
   
   
   //A method for updating the world
@@ -78,9 +78,7 @@ object World {
     multWaves.foreach(wave => waves += wave)
   }
   def nextWave() = {
-    if (waves.nonEmpty) {
-      unspawnedMonsters = unspawnedMonsters ++ waves.dequeue()
-    } else spawn()
+    if (waves.nonEmpty) unspawnedMonsters = unspawnedMonsters ++ waves.dequeue()
   }
   
   def initializeWorld() = {
@@ -98,7 +96,6 @@ object World {
   }
   
   LevelLoader.loadGame(GUI.gameFile)
-  
   
   
   

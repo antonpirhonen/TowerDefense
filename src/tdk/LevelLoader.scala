@@ -7,6 +7,8 @@ import java.io.BufferedReader
 import scala.collection.mutable.ListBuffer
 /**This Object initializes the World
  * */
+class CorruptedLevelFileException(message: String) extends Exception(message)
+
 object LevelLoader {
   
   def wakeup = Unit
@@ -22,7 +24,8 @@ object LevelLoader {
           case "normal" => for (rep <- 0 until monAmount) yield new NormalMonster(-25, -25, -25*rep)
           case "fast"   => for (rep <- 0 until monAmount) yield new FastMonster(-25, -25, -25*rep)
           case "tank"   => for (rep <- 0 until monAmount) yield new TankMonster(-25, -25, -25*rep)
-          case _        => IndexedSeq[Monster]()
+          case ""       => IndexedSeq[Monster]()
+          case _        => throw new CorruptedLevelFileException("Something's not right")
         }
       })
       World.waves.+=(toAdd.flatten.toBuffer)

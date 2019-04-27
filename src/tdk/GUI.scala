@@ -23,6 +23,7 @@ import scalafx.scene.input.KeyCode
 import scalafx.scene.text._
 import scalafx.stage.FileChooser
 import scalafx.scene.control.Button
+import scalafx.scene.control.Alert
 
 
 /* A gui that hopefully is not as bad a cat ass trophy as the last one*/
@@ -72,15 +73,22 @@ object GUI extends JFXApp{
           val fChooser = new FileChooser
           val selectedFile = fChooser.showOpenDialog(stage)
           if (selectedFile != null) {
+            corruptedFileAlert()
             gameFile = selectedFile.toString().replace('\\', '/')
             World.initializeWorld()
             LevelLoader.loadGame(gameFile)
           }
         }
       }
+      val restart = new MenuItem("Restart") {
+        onAction = (ae: ActionEvent) => {
+          World.initializeWorld()
+          LevelLoader.loadGame(gameFile)
+        }
+      }
       
       gameMenu.items = List(basicTower, shotgunTower, mgTower)
-      loadMenu.items = List(loadGame)
+      loadMenu.items = List(loadGame, restart)
       menuBar.menus = List(gameMenu, loadMenu)
       val rootPane = new BorderPane
       rootPane.top = menuBar
@@ -129,10 +137,22 @@ object GUI extends JFXApp{
       }
       
       
-      def updateStats() = {
+      def updateStats(): Unit = {
         hpDisp.text = "Health: " + World.getHP
         moneyDisp.text = "Money: " + World.getMoney
-        if (World.getHP < 1 ) gameLost
+        if(World.getHP < 1 ) gameLost
+        if(World.waves.isEmpty && World.monsters.isEmpty && World.unspawnedMonsters.isEmpty) gameWon()
+      }
+      
+      def corruptedFileAlert() = {
+        timer.stop()
+        new Alert(Alert.AlertType.Warning) {
+          initOwner(stage)
+          title = "Warning"
+          headerText = "A Corrupted Load File"
+          contentText = "The file you tried to load was not of proper form."
+        }.showAndWait()
+        timer.start()
       }
       
       def buy(ttype: TowerType) = {
@@ -181,7 +201,7 @@ object GUI extends JFXApp{
         gameTime = t
       })
       
-     timer.start()
+      timer.start()
     }
     
     scene = mainScene
@@ -202,9 +222,29 @@ object GUI extends JFXApp{
             stage.setScene(mainScene)
           }
         }
-        button.relocate(475, 400)
+        button.relocate(470, 400)
         
         
+        content = List(bg, text, button)
+      }
+    }
+    
+    def gameWon() = {
+      scene = new Scene(1000,600) {
+        World.initializeWorld()
+        val bg = Rectangle(1000,1000)
+        bg.fill = Color.LightBlue
+        val text = new Text("Congratulations!\nYou won the level!")
+        text.fill = Color.CORAL
+        text.scaleX = 10
+        text.scaleY = 7
+        text.relocate(453, 150)
+        val button = new Button("Play Again!") {
+          onMouseClicked = (me: MouseEvent) => {
+            stage.setScene(mainScene)
+          }
+        }
+        button.relocate(470, 400)
         content = List(bg, text, button)
       }
     }
