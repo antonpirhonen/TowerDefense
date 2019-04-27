@@ -1,2 +1,3 @@
-#Waves
-normal*5,fast*5,tank*10:.1
+#waves
+normal*10
+fast*5l

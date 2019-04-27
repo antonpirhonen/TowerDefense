@@ -62,8 +62,10 @@ object World {
     health -= damage
   }
   def getHP = this.health
+  def setHP(hp: Int) = health = hp 
   def updateSpawnFreq(freq: Double) = this.spawnFreq = freq
   def getMoney = this.money
+  def setMoney(amount: Int) = money = amount 
   def addMoney(amount: Int) = money += max(amount,0)
   def buy(price: Int): Boolean = {
     if(price > money) false else {

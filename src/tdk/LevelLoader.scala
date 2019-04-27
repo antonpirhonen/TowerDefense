@@ -7,7 +7,7 @@ import java.io.BufferedReader
 import scala.collection.mutable.ListBuffer
 /**This Object initializes the World
  * */
-class CorruptedFileException(message: String) extends Exception(message)
+class CorruptedFileException(val message: String) extends Exception(message)
 
 class Wave(enemies: Buffer[Monster], spawnFreq: Double)
 
@@ -19,18 +19,19 @@ object LevelLoader {
   
   def loadGame(str: String) = {
     val gameFile = Source.fromFile(str)
+    
     def readLine(str: String): Unit = {
+      if (str.trim.toLowerCase == "#waves") {readingMonData = true; readingStatData = false; return Unit}
+      else if (str.trim.toLowerCase == "#stats") {readingMonData = false; readingStatData = true; return Unit}
       if (readingMonData) return readMonsterData(str)
-      if (readingStatData) return Unit
-      if (str.trim.toLowerCase == "#waves") {readingMonData = true; readingStatData = false}
-      else if (str.trim.toLowerCase == "#stats") {readingMonData = false; readingStatData = true}
+      if (readingStatData) return readStatData(str)
       else throw new CorruptedFileException("Headers of the .level file are wrong.")
       
       
       
       def readMonsterData(str: String): Unit = {
         val allowed = (48 until 58).map(_.toChar).:+('.')
-        val monsAndFreq = str.trim.split(':').map(_.trim())
+        val monsAndFreq = str.trim.split(':').map(_.trim().toLowerCase)
         val mons = monsAndFreq.head.split(',')
         if (mons.head.trim == "") return ()
         val freq = if (monsAndFreq.size == 1) 0.2 
@@ -40,8 +41,11 @@ object LevelLoader {
                                                          "<data from monsters>:frequency")
         
         val toAdd = mons.map(mon => {
-          val monType = mon.trim.takeWhile(_ != '*')
-          val monAmount = mon.trim.reverse.takeWhile(_ != '*').reverse.toInt
+          val typeAmount = mon.split('*').map(_.trim())
+          if (typeAmount.size != 2) throw new CorruptedFileException("Monster data entered wrong.")
+          val monType = typeAmount.head
+          val monAmount = if (typeAmount.last.forall(char => allowed.dropRight(1).contains(char))) typeAmount.last.toInt
+                          else throw new CorruptedFileException("Monster amount was not entered correctly.") 
           monType match {
             case "normal" => for (rep <- 0 until monAmount) yield new NormalMonster(-25, -25, -25*rep)
             case "fast"   => for (rep <- 0 until monAmount) yield new FastMonster(-25, -25, -25*rep)
@@ -57,7 +61,13 @@ object LevelLoader {
       }
       
       def readStatData(str: String): Unit = {
-        
+        val allowed = 48 until 58 map(_.toChar)
+        val paramAndScalar = str.split('=').map(_.trim().toLowerCase)
+        val param  = paramAndScalar.head
+        val scalar = paramAndScalar.last
+        if (!(param == "health" || param == "money")) throw new CorruptedFileException("Parameters of statistics are inputted wrong.")
+        if (!scalar.forall(char => allowed.contains(char))) throw new CorruptedFileException("The scalars of Stats are in an incorect format.")
+        if (param == "health") World.setHP(scalar.toInt) else World.setMoney(scalar.toInt)
       }
       
       
@@ -68,6 +78,11 @@ object LevelLoader {
       if (gameFile.nonEmpty) {
         val lines = gameFile.getLines()
         lines.foreach(readLine)
+      }
+    } catch {
+      case cfe: CorruptedFileException => {
+        GUI.fileCor = true
+        GUI.errorMessage = cfe.message
       }
     } finally {
       gameFile.close()

@@ -40,6 +40,7 @@ object GUI extends JFXApp{
   var gameFile = "levels/testLevel.level"
   var gameTime = 0L
   var fileCor  = false
+  var errorMessage = ""
   private var canBuyTower: Option[TowerType] = None
   val width = 1000
   val height = 600
@@ -74,10 +75,14 @@ object GUI extends JFXApp{
           val fChooser = new FileChooser
           val selectedFile = fChooser.showOpenDialog(stage)
           if (selectedFile != null) {
-            corruptedFileAlert()
             gameFile = selectedFile.toString().replace('\\', '/')
             World.initializeWorld()
             LevelLoader.loadGame(gameFile)
+            if (fileCor){
+              corruptedFileAlert(errorMessage)   
+              World.initializeWorld()
+            }
+            
           }
         }
       }
@@ -145,13 +150,13 @@ object GUI extends JFXApp{
         if(World.waves.isEmpty && World.monsters.isEmpty && World.unspawnedMonsters.isEmpty) gameWon()
       }
       
-      def corruptedFileAlert() = {
+      def corruptedFileAlert(msg: String) = {
         timer.stop()
         new Alert(Alert.AlertType.Warning) {
           initOwner(stage)
           title = "Warning"
           headerText = "A Corrupted Load File"
-          contentText = "The file you tried to load was not of proper form."
+          contentText = msg
         }.showAndWait()
         timer.start()
       }
