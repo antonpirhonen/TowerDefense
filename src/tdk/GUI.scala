@@ -140,6 +140,7 @@ object GUI extends JFXApp{
             temp.fill = Color.Red
             temp
           }
+          case t: TestMonster => Circle(t.x,t.y,25)
         }
       }
       
