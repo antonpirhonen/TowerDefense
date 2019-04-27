@@ -39,6 +39,7 @@ object GUI extends JFXApp{
    * */
   var gameFile = "levels/testLevel.level"
   var gameTime = 0L
+  var fileCor  = false
   private var canBuyTower: Option[TowerType] = None
   val width = 1000
   val height = 600

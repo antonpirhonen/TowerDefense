@@ -7,7 +7,9 @@ import java.io.BufferedReader
 import scala.collection.mutable.ListBuffer
 /**This Object initializes the World
  * */
-class CorruptedLevelFileException(message: String) extends Exception(message)
+class CorruptedFileException(message: String) extends Exception(message)
+
+class Wave(enemies: Buffer[Monster], spawnFreq: Double)
 
 object LevelLoader {
   
@@ -15,8 +17,20 @@ object LevelLoader {
   
   def loadGame(str: String) = {
     val gameFile = Source.fromFile(str)
-    def readLine(str: String) = {
-      val mons = str.trim.split(',')
+    def readLine(str: String): Unit = {
+      
+      
+      
+      
+      val allowed = (48 until 58).map(_.toChar).:+('.')
+      val monsAndFreq = str.trim.split(':').map(_.trim())
+      val mons = monsAndFreq.head.split(',')
+      if (mons.head.trim == "") return ()
+      val freq = if (monsAndFreq.size == 1) 0.2 
+                 else if (monsAndFreq.last.forall(char => allowed.contains(char))
+                          && monsAndFreq.last.filter(char => char == '.').size <= 1) monsAndFreq.last.toDouble
+                 else throw new CorruptedFileException("Monster spawn frequency entered wrong.")
+      
       val toAdd = mons.map(mon => {
         val monType = mon.trim.takeWhile(_ != '*')
         val monAmount = mon.trim.reverse.takeWhile(_ != '*').reverse.toInt
@@ -24,11 +38,14 @@ object LevelLoader {
           case "normal" => for (rep <- 0 until monAmount) yield new NormalMonster(-25, -25, -25*rep)
           case "fast"   => for (rep <- 0 until monAmount) yield new FastMonster(-25, -25, -25*rep)
           case "tank"   => for (rep <- 0 until monAmount) yield new TankMonster(-25, -25, -25*rep)
-          case ""       => IndexedSeq[Monster]()
-          case _        => throw new CorruptedLevelFileException("Something's not right")
+          case _        => throw new CorruptedFileException("Monsters are not formatted correctly in the file\n"
+                                                          + "they should be written <type>*<amount> e.g. fast*10")
         }
       })
       World.waves.+=(toAdd.flatten.toBuffer)
+      new Wave(toAdd.flatten.toBuffer,freq)
+      println(freq)
+      Unit
     }
     
     try {
