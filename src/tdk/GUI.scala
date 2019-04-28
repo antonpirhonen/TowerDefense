@@ -106,9 +106,9 @@ object GUI extends JFXApp{
             val x = me.getSceneX
             val y = me.getSceneY
             canBuyTower.get match {
-              case BasicTower => World.towers += new BasicTower(x.toInt - BasicTower.size/2, y.toInt - BasicTower.size/2)
-              case MachinegunTower => World.towers += new MachinegunTower(x.toInt - BasicTower.size/2, y.toInt - BasicTower.size/2)
-              case ShotgunTower => World.towers += new ShotgunTower(x.toInt - BasicTower.size/2, y.toInt - BasicTower.size/2)
+              case BasicTower => World.towers += new BasicTower(x.toInt, y.toInt)
+              case MachinegunTower => World.towers += new MachinegunTower(x.toInt, y.toInt)
+              case ShotgunTower => World.towers += new ShotgunTower(x.toInt, y.toInt)
               case _          => 
             }
             canBuyTower = None
@@ -184,6 +184,27 @@ object GUI extends JFXApp{
         }
       }
       
+      def towerImg(tower: Tower): Rectangle = {
+        val s = BasicTower.size/2
+        tower match {
+          case b: BasicTower => {
+            val temp = Rectangle(b.x - s, b.y - s, 30, 30)
+            temp.fill = Color.Indigo
+            temp
+            }
+          case g: ShotgunTower => {
+            val temp = Rectangle(g.x - s, g.y - s, 30, 30)
+            temp.fill = Color.Orange
+            temp
+          }
+          case m: MachinegunTower => {
+            val temp = Rectangle(m.x - s, m.y - s, 30, 30)
+            temp.fill = Color.Yellow
+            temp
+          }
+        }
+      }
+      
       val tiles = Grid.tiles.map(column => column.map(tile => {
         val img = Rectangle(tile.x, tile.y, tile.side, tile.side)
         if (tile.isPath) img.fill_=(Color.Gray) else img.fill_=(Color.LightGreen)
@@ -201,7 +222,7 @@ object GUI extends JFXApp{
         updateStats()
         content = tiles ++ List(rootPane, hpDisp, moneyDisp) ++ World.update.map(entity => entity match {
           case monster: Monster => monsterImg(monster)
-          case tower: Tower     => Rectangle(tower.x, tower.y, 30, 30)
+          case tower: Tower     => towerImg(tower)
           case projectile: Projectile => Circle(projectile.x, projectile.y, 5)      
         })
         gameTime = t
