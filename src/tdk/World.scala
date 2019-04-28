@@ -102,16 +102,4 @@ object World {
   }
   
   LevelLoader.loadGame(GUI.gameFile)
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-    
-  
 }

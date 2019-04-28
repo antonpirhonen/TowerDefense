@@ -1,0 +1,13 @@
+#waves
+normal*10,tank*10,fast*10:0.5
+fast*3:1
+tank*2:3
+normal*10:0.3
+tank*1,normal*5,fast*2,tank*1:0.5
+tank*2,normal*10,fast*5:0.3
+fast*10:0.4
+tank*5,normal*15
+
+
+#stats
+money = 5000

@@ -39,6 +39,7 @@ object GUI extends JFXApp{
    * */
   var gameFile = "levels/testLevel.level"
   var gameTime = 0L
+  var monsLoaded = false
   var fileCor  = false
   var errorMessage = ""
   private var canBuyTower: Option[TowerType] = None
@@ -77,7 +78,6 @@ object GUI extends JFXApp{
           if (selectedFile != null) {
             gameFile = selectedFile.toString().replace('\\', '/')
             World.initializeWorld()
-            LevelLoader.loadGame(gameFile)
             if (fileCor){
               corruptedFileAlert(errorMessage)   
               World.initializeWorld()
@@ -147,7 +147,7 @@ object GUI extends JFXApp{
         hpDisp.text = "Health: " + World.getHP
         moneyDisp.text = "Money: " + World.getMoney
         if(World.getHP < 1 ) gameLost
-        if(World.waves.isEmpty && World.monsters.isEmpty && World.unspawnedMonsters.isEmpty) gameWon()
+        if(World.waves.isEmpty && World.monsters.isEmpty && World.unspawnedMonsters.isEmpty && monsLoaded) gameWon()
       }
       
       def corruptedFileAlert(msg: String) = {

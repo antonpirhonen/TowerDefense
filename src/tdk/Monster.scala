@@ -21,7 +21,7 @@ class NormalMonster(x: Int, y: Int, location: Int, hp: Int = NormalMonster.start
   val bounty = 20
   
   def takeDamage(projDamage: Int): Option[Monster] = {
-    if (projDamage < hp) Some(new NormalMonster(x,y, location,hp - projDamage)) else None
+    if (projDamage < hp) Some(new NormalMonster(x,y, location,hp - projDamage)) else {SoundManager.playPop(); None}
   }
   
   def advance: Option[Monster] = {
@@ -47,7 +47,7 @@ class FastMonster(x: Int, y: Int, location: Int, hp: Int = FastMonster.startHP) 
   val bounty = 10
   
   def takeDamage(projDamage: Int): Option[Monster] = {
-    if (projDamage < hp) Some(new FastMonster(x,y,location,hp - projDamage)) else None
+    if (projDamage < hp) Some(new FastMonster(x,y,location,hp - projDamage)) else {SoundManager.playBip(); None}
   }
   
   def advance: Option[Monster] = {
@@ -71,7 +71,7 @@ class TankMonster(x: Int, y: Int, location: Int, hp: Int = TankMonster.startHP) 
   val bounty = 35
   
   def takeDamage(projDamage: Int): Option[Monster] = {
-    if (projDamage < hp) Some(new TankMonster(x,y,location,hp - projDamage)) else None
+    if (projDamage < hp) Some(new TankMonster(x,y,location,hp - projDamage)) else {SoundManager.playBop(); None}
   }
   
   def advance: Option[Monster] = {

@@ -54,6 +54,7 @@ object LevelLoader {
                                                             + "they should be written <type>*<amount> e.g. fast*10")
           }
         })
+        GUI.monsLoaded = true
         World.waves.+=(new Wave(toAdd.flatten.toBuffer,freq))
       }
       

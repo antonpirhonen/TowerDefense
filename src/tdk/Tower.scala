@@ -13,6 +13,7 @@ class Tower(val x: Int, val y: Int, val firePerSec: Double, val range: Int) exte
     val enemiesInRange = World.monsters.filter(mon => hypot(x - mon.x, y - mon.y) < range)
     val furthestEnemyInRange = if (enemiesInRange.nonEmpty) Some(enemiesInRange.maxBy(_.location)) else None
     
+    
     if (World.time - lastShot > cooldownSec*10E8 && enemiesInRange.nonEmpty) {
       lastShot = World.time
       val m = furthestEnemyInRange.get
@@ -29,6 +30,7 @@ class Tower(val x: Int, val y: Int, val firePerSec: Double, val range: Int) exte
         }
       }
       
+      SoundManager.playClick()
       Vector(Some(new Projectile(x,y,20,angle)))
     } else Vector(None)
   }
@@ -71,6 +73,7 @@ class ShotgunTower(x: Int, y: Int) extends Tower(x,y,2,100) {
         }
       }
       
+      SoundManager.playClick()
       Vector(Some(new Projectile(x,y,20,angle)), Some(new Projectile(x,y,20,angle + 0.2)), Some(new Projectile(x,y,20,angle - 0.2)))
     } else Vector(None)
   }
