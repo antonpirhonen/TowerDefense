@@ -210,13 +210,7 @@ object GUI extends JFXApp{
         if (tile.isPath) img.fill_=(Color.Gray) else img.fill_=(Color.LightGreen)
         img
       })).flatten
-
       
-      val temp = new Button("temp") {
-        onAction = (ae: ActionEvent) => {
-          gameLost
-        }
-      }
       
       val timer = AnimationTimer(t => {
         updateStats()
