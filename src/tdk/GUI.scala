@@ -49,7 +49,7 @@ object GUI extends JFXApp{
   
   stage = new JFXApp.PrimaryStage {
     
-    title = "TDK GUI TEST" //the title of the window
+    title = "Tower Defense" //the title of the window
     val mainScene: Scene = new Scene(1000, 600) {
       
       val menuBar = new MenuBar
