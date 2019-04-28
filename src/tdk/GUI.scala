@@ -92,7 +92,7 @@ object GUI extends JFXApp{
       rootPane.top = menuBar
             
       
-      //Tower buing action
+      //Tower buying action
       onMouseClicked = new EventHandler[MouseEvent] {
         override def handle(me: MouseEvent) {
           if (canBuyTower.nonEmpty) {
