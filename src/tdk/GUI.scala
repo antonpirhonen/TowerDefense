@@ -247,6 +247,23 @@ object GUI extends JFXApp{
         text.relocate(453, 150)
         val button = new Button("Play Again!") {
           onMouseClicked = (me: MouseEvent) => {
+            
+//            val fChooser = new FileChooser
+//            val selectedFile = fChooser.showOpenDialog(stage)
+//              if (selectedFile != null) {
+//                gameFile = selectedFile.toString().replace('\\', '/')
+//                World.initializeWorld()
+//                LevelLoader.loadGame(gameFile)
+//                if (fileCor){
+//                  new Alert(Alert.AlertType.Warning) {
+//                    initOwner(stage)
+//                    title = "Warning"
+//                    headerText = "A Corrupted Load File"
+//                    contentText = errorMessage
+//                  }.showAndWait()   
+//                  World.initializeWorld()
+//                }
+//              }
             stage.setScene(mainScene)
           }
         }

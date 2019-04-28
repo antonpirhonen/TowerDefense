@@ -9,7 +9,7 @@ import scala.collection.mutable.ListBuffer
  * */
 class CorruptedFileException(val message: String) extends Exception(message)
 
-class Wave(enemies: Buffer[Monster], spawnFreq: Double)
+class Wave(var enemies: Buffer[Monster],val spawnFreq: Double)
 
 object LevelLoader {
   
@@ -21,8 +21,8 @@ object LevelLoader {
     val gameFile = Source.fromFile(str)
     
     def readLine(str: String): Unit = {
-      if (str.trim.toLowerCase == "#waves") {readingMonData = true; readingStatData = false; return Unit}
-      else if (str.trim.toLowerCase == "#stats") {readingMonData = false; readingStatData = true; return Unit}
+      if (str.trim.toLowerCase == "#waves") {readingMonData = true; readingStatData = false; return}
+      else if (str.trim.toLowerCase == "#stats") {readingMonData = false; readingStatData = true; return}
       if (readingMonData) return readMonsterData(str)
       if (readingStatData) return readStatData(str)
       else throw new CorruptedFileException("Headers of the .level file are wrong.")
@@ -54,10 +54,7 @@ object LevelLoader {
                                                             + "they should be written <type>*<amount> e.g. fast*10")
           }
         })
-        World.waves.+=(toAdd.flatten.toBuffer)
-        new Wave(toAdd.flatten.toBuffer,freq)
-        println(freq)
-        Unit
+        World.waves.+=(new Wave(toAdd.flatten.toBuffer,freq))
       }
       
       def readStatData(str: String): Unit = {

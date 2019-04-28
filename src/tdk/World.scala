@@ -13,7 +13,7 @@ object World {
   private var lastSpawn = 0L
   private var health = 100
   private var money  = 1000
-  private var spawnFreq = 0.2
+  private var spawnFreq = 1.0
   
   //These represent the world and should all probably be private as well. Changed by a method
   var entities: Buffer[Entity] = Buffer()
@@ -21,7 +21,7 @@ object World {
   var monsters = Buffer[Monster]()
   var towers = Buffer[Tower]()
   var projectiles: ListBuffer[Projectile] = ListBuffer()
-  var waves: Queue[Buffer[Monster]] = Queue()
+  var waves: Queue[Wave] = Queue()
   
 //  def spawn() = {
 //    for (i <- 0 until 50) {
@@ -47,7 +47,7 @@ object World {
     })
     
     val last = lastSpawn
-    if (unspawnedMonsters.nonEmpty && (time - last) > spawnFreq*10E8) { monsters += unspawnedMonsters.dequeue(); lastSpawn = last }
+    if (unspawnedMonsters.nonEmpty && (time - last) > spawnFreq*10E8) { monsters += unspawnedMonsters.dequeue(); lastSpawn = time }
     
     monsters = monsters.map(_.advance).flatten
     projectiles = projectiles.map(_.advance).flatten
@@ -73,14 +73,18 @@ object World {
       true
     }
   }
-  def addWave(monsters: Buffer[Monster]) = {
-    waves += monsters
+  def addWave(wave: Wave) = {
+    waves += wave
   }
-  def addWave(multWaves : Seq[Buffer[Monster]]) = {
+  def addWave(multWaves : Seq[Wave]) = {
     multWaves.foreach(wave => waves += wave)
   }
   def nextWave() = {
-    if (waves.nonEmpty) unspawnedMonsters = unspawnedMonsters ++ waves.dequeue()
+    if (waves.nonEmpty && unspawnedMonsters.isEmpty) {
+      val next = waves.dequeue()
+      spawnFreq = next.spawnFreq
+      unspawnedMonsters = Queue[Monster]() ++ next.enemies
+    }
   }
   
   def initializeWorld() = {
