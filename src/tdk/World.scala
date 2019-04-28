@@ -22,13 +22,7 @@ object World {
   var towers = Buffer[Tower]()
   var projectiles: ListBuffer[Projectile] = ListBuffer()
   var waves: Queue[Wave] = Queue()
-  
-//  def spawn() = {
-//    for (i <- 0 until 50) {
-//      unspawnedMonsters = unspawnedMonsters :+ new NormalMonster(-200, -200, -25*i)
-//    }
-//  }
-  
+    
   
   //A method for updating the world
   def update: Buffer[Entity] = {

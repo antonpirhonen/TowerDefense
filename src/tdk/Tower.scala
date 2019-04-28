@@ -7,12 +7,10 @@ class Tower(val x: Int, val y: Int, val firePerSec: Double, val range: Int) exte
   var lastShot = 0L
   val cooldownSec = 1.0/firePerSec
   
-  
+  //Tower shoots a projectile at a Monster
   def shoot: Vector[Option[Projectile]] = {
-    
     val enemiesInRange = World.monsters.filter(mon => hypot(x - mon.x, y - mon.y) < range)
     val furthestEnemyInRange = if (enemiesInRange.nonEmpty) Some(enemiesInRange.maxBy(_.location)) else None
-    
     
     if (World.time - lastShot > cooldownSec*10E8 && enemiesInRange.nonEmpty) {
       lastShot = World.time

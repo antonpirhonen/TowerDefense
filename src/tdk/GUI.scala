@@ -25,18 +25,10 @@ import scalafx.stage.FileChooser
 import scalafx.scene.control.Button
 import scalafx.scene.control.Alert
 
-
-/* A gui that hopefully is not as bad a cat ass trophy as the last one*/
-
+/**Interacts with user
+ * */
 object GUI extends JFXApp{
  
-  /* Stage, jossa pääikkuna scene
-   * scenellä on content, johon voi lisätä Node-tyyppisiä olioita, joita on eri muodot teksti,Image jne
-   * Rectangleja voi teksturoida image pattern - luokalla, 
-   * Ticker metodi: Saa kellon 
-   * clock: AnimationTimer("taski, jota tekee joka tickillä")
-   * UpdateLogic/drawGraphics
-   * */
   var gameFile = "levels/testLevel.level"
   var gameTime = 0L
   var monsLoaded = false
@@ -100,6 +92,7 @@ object GUI extends JFXApp{
       rootPane.top = menuBar
             
       
+      //Tower buing action
       onMouseClicked = new EventHandler[MouseEvent] {
         override def handle(me: MouseEvent) {
           if (canBuyTower.nonEmpty) {
@@ -117,6 +110,7 @@ object GUI extends JFXApp{
       }
       
       
+      //Event listeners for key input
       onKeyPressed = (ke: KeyEvent) => {
         ke.code match {
           case KeyCode.SPACE => World.nextWave()
@@ -143,6 +137,7 @@ object GUI extends JFXApp{
       }
       
       
+      //Updates the stats from World to GUI
       def updateStats(): Unit = {
         hpDisp.text = "Health: " + World.getHP
         moneyDisp.text = "Money: " + World.getMoney
@@ -150,6 +145,7 @@ object GUI extends JFXApp{
         if(World.waves.isEmpty && World.monsters.isEmpty && World.unspawnedMonsters.isEmpty && monsLoaded) gameWon()
       }
       
+      //Creates an alert when a corrupted file is loaded
       def corruptedFileAlert(msg: String) = {
         timer.stop()
         new Alert(Alert.AlertType.Warning) {
@@ -167,7 +163,7 @@ object GUI extends JFXApp{
           }
       }
       
-      
+      //Draws monsters by image
       def monsterImg(mon: Monster): Circle = {
         mon match {
           case a: NormalMonster => Circle(a.x, a.y, 10)
@@ -184,6 +180,7 @@ object GUI extends JFXApp{
         }
       }
       
+      //Draws towers by image
       def towerImg(tower: Tower): Rectangle = {
         val s = BasicTower.size/2
         tower match {
@@ -211,7 +208,7 @@ object GUI extends JFXApp{
         img
       })).flatten
       
-      
+      //A timer that draws the animations
       val timer = AnimationTimer(t => {
         updateStats()
         content = tiles ++ List(rootPane, hpDisp, moneyDisp) ++ World.update.map(entity => entity match {
@@ -227,7 +224,7 @@ object GUI extends JFXApp{
     
     scene = mainScene
     
-    //Temporary
+    //Changes the scene to game lost-scene
     def gameLost() = {
       scene = new Scene(1000, 600) {
         World.initializeWorld()
@@ -250,6 +247,7 @@ object GUI extends JFXApp{
       }
     }
     
+    //changes the scene to game won- scene
     def gameWon() = {
       scene = new Scene(1000,600) {
         World.initializeWorld()
@@ -262,23 +260,6 @@ object GUI extends JFXApp{
         text.relocate(453, 150)
         val button = new Button("Play Again!") {
           onMouseClicked = (me: MouseEvent) => {
-            
-//            val fChooser = new FileChooser
-//            val selectedFile = fChooser.showOpenDialog(stage)
-//              if (selectedFile != null) {
-//                gameFile = selectedFile.toString().replace('\\', '/')
-//                World.initializeWorld()
-//                LevelLoader.loadGame(gameFile)
-//                if (fileCor){
-//                  new Alert(Alert.AlertType.Warning) {
-//                    initOwner(stage)
-//                    title = "Warning"
-//                    headerText = "A Corrupted Load File"
-//                    contentText = errorMessage
-//                  }.showAndWait()   
-//                  World.initializeWorld()
-//                }
-//              }
             stage.setScene(mainScene)
           }
         }
