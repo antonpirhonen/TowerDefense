@@ -23,6 +23,7 @@ object LevelLoader {
     def readLine(str: String): Unit = {
       if (str.trim.toLowerCase == "#waves") {readingMonData = true; readingStatData = false; return}
       else if (str.trim.toLowerCase == "#stats") {readingMonData = false; readingStatData = true; return}
+      if(str.trim.toLowerCase() == "") return
       if (readingMonData) return readMonsterData(str)
       if (readingStatData) return readStatData(str)
       else throw new CorruptedFileException("Headers of the .level file are wrong.")
