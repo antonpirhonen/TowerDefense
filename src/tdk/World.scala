@@ -92,8 +92,12 @@ object World {
     towers = Buffer[Tower]()
     projectiles = ListBuffer()
     waves = Queue()
+    GUI.fileCor = false
+    GUI.errorMessage = ""
+    GUI.monsLoaded = false
     LevelLoader.loadGame(GUI.gameFile)
   }
   
+  SoundManager.prep
   LevelLoader.loadGame(GUI.gameFile)
 }

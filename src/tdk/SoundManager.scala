@@ -4,6 +4,9 @@ import scalafx.Includes._
 import scalafx.scene.media.AudioClip
 
 object SoundManager extends {
+  
+  def prep: Unit = ()
+  
   val click = new AudioClip("file:sound/TDK_Click.mp3")
   def playClick() = click.play()
   

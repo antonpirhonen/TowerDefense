@@ -1,8 +1,2 @@
 #Waves
-normal*5 :0.5
-fast*2,normal*5,fast*2 :0.7
-tank*2,normal*2 :0.5
-
-#Stats
-health=20
-money=500
+normal*10,normal*5 :0.5

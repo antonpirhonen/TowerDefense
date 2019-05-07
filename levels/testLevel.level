@@ -13,8 +13,6 @@ normal*25,fast*10
 tank*5,fast*20
 tank*8,normal*5,fast*15,normal*10:0.3
 fast*5,tank*16,fast*35
-
-
 #stats
 
 money = 750
