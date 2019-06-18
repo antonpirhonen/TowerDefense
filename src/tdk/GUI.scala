@@ -114,9 +114,9 @@ object GUI extends JFXApp{
       onKeyPressed = (ke: KeyEvent) => {
         ke.code match {
           case KeyCode.SPACE => World.nextWave()
-//          case KeyCode.B if canBuyTower.isEmpty => buy(BasicTower) //for some reason the thread didn't like this idea and it stopped the mouse
-//          case KeyCode.M if canBuyTower.isEmpty => buy(MachinegunTower)
-//          case KeyCode.S if canBuyTower.isEmpty => buy(ShotgunTower)
+          case KeyCode.B if canBuyTower.isEmpty => buy(BasicTower) //for some reason the thread didn't like this idea and it stopped the mouse
+          case KeyCode.M if canBuyTower.isEmpty => buy(MachinegunTower)
+          case KeyCode.S if canBuyTower.isEmpty => buy(ShotgunTower)
           case _ =>
         }
       }

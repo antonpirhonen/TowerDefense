@@ -1,2 +1,15 @@
 #Waves
-normal*10,normal*5 :0.5
+tank*20,normal*100,fast*100:0.1
+tank*20,normal*100,fast*100:0.1
+tank*20,normal*100,fast*100:0.1
+tank*20,normal*100,fast*100:0.1
+tank*20,normal*100,fast*100:0.1
+tank*20,normal*100,fast*100:0.1
+tank*20,normal*100,fast*100:0.1
+tank*20,normal*100,fast*100:0.1
+tank*20,normal*100,fast*100:0.1
+
+
+#stats
+money=10000
+health=1000
