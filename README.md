@@ -1,2 +1,2 @@
 # TowerDefense
-Project done for a course at Aalto
+Project done for a course at Aalto during my freshman year.
